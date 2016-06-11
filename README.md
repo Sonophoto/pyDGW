@@ -1,7 +1,7 @@
 # pyDGW
-***A library that implements a basic state machine for walking Directed State Graphs***
+***A class that implements a basic state machine for walking Directed State Graphs***
 
-Maintains a list of Nodes in a graph with the callback functions that define
+Maintains a list of Nodes in a graph with callback functions that define
 the edges and possible transistions from one node to the next. Maintains a
 DGW_data object that is passed from node to node as the current system state.
 pyDGW implements methods for adding nodes, setting nodes to be ending or
