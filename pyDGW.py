@@ -87,7 +87,7 @@ class DGW:
       if not self.endNodes: 
          sys.exit("No ending node has been set, aborting")
 
-      while TRUE:
+      while True:
          (next_node, DGW_data) = operator(DGW_data)
          if next_node in self.endNodes: # We have reached an endNode
             break;
