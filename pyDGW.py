@@ -1,9 +1,9 @@
 """
 *********************************************************************
-    Python
-     -3.5-
-                             ____     ____  _        _
-               _ __  _   _  |  _ \   / ___|| \      / |
+                   python Directed Graph Walker
+
+   Python                    ____     ____  _        _
+    -3.5-      _ __  _   _  |  _ \   / ___|| \      / |
               | '_ \| | | | | | | | | |  _  \ \ /\ / / 
               | |_) | |_| | | |_| | | |_| |  \ V  V /  
               | .__/ \__, | |____/   \____|   \_/\_/   
@@ -26,14 +26,22 @@ ___________________/  /__/  /__/  /__/  /________________________________
                                            \_____/--<
 
 *********************************************************************
+
+Maintains a list of Nodes in a graph with the callback functions
+that define the edges and possible transistions from one node to
+the next. implements methods for adding nodes, setting nodes to 
+be ending or starting nodes, and then walking thru the nodes by
+calling the callback function of each node it enters beginning 
+with the start node until it enters an end node.
 """
+
 import sys
 
 
 # This class is supposed to be the data passed thru the nodes ref Python 3 tutorial section 9.7.
 #
 # so do 
-# foo = DGW_node()
+# foo = DGW_data()
 # foo.bar = 'cat'
 # foo.foo = 'dog'
 # foo.method = someReference
@@ -47,13 +55,6 @@ class DGW_data:
 
 
 class DGW:
-   """Maintains a list of Nodes in a graph with the callback functions
-      that define the edges and possible transistions from one node to
-      the next. implements methods for adding nodes, setting nodes to 
-      be ending or starting nodes, and then walking thru the nodes by
-      calling the callback function of each node it enters beginning 
-      with the start node until it enters an end node."""
-
    def __init__(self):
       """constructor for the python Directed Graph Walker.  Each node
       (or state/vertex) has a callback, and it is the callback that 
