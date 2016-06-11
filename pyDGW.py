@@ -28,6 +28,21 @@ ___________________/  /__/  /__/  /__/  /________________________________
 *********************************************************************
 """
 
+# This class is supposed to be the data passed thru the nodes ref Python 3 tutorial section 9.7.
+#
+# so do 
+# foo = DGW_node()
+# foo.bar = 'cat'
+# foo.foo = 'dog'
+# foo.method = someReference
+#A piece of Python code that expects a particular abstract data type can often be passed a class that emulates the methods of that data type instead. For instance, if you have a function that formats some data from a file object, you can define a class with methods read() and readline() that get the data from a string buffer instead, and pass it as an argument.
+#
+#Instance method objects have attributes, too: m.__self__ is the instance object with the method m(), and m.__func__ is the function object corresponding to the method.
+
+
+class DGW_node:
+   pass
+
 class DGW:
    """Maintains a list of Nodes in a graph with the callback functions
       that define the edges and possible transistions from one node to
@@ -42,27 +57,38 @@ class DGW:
         """constructor for the python Directed Graph Walker.
            Each node (or state/vertex) has a callback, and it is
            the callback that defines the edges"""
-        self.callbacks = {} #Dictionary of node_name:callback
-        self.startNode = None #Set startNode to "NULL"
-        self.endNodes  = [] #list of nodes that can exit.
+        self.callbacks = {} #Dictionary of node_name:callback PERL:HASH
+        self.startNode = None #Set startNode to "NULL"        PERL:SCALAR 
+        self.endNodes  = [] #list of nodes that can exit.     PERL:LIST
+        # every flippin thing in the language is a reference! see id()
 
 
     def addNode(self, node_name, callback):
         """Adds a node and its callback to our nodelist. This 
            is the actual node, the callbacks define the edges"""
-
+        # Add behaviour that sets the first node entered as the startNode
+        self.callbacks[node_name] = callback # Popu. Asso. Array.
 
 
     def setStartNode(self, node_name):
         """Sets a node to be a startNode for the graph walker"""
-
-
+        
+        self.startNode = node_name) # Setting a scalar value
 
     def setEndNode(self, node_name):
         """Sets a node to be an endNode for the graph walker"""
 
+        self.endNode.append(node_name) #ALL variables are objects! With methods?!! nice.
 
-
-    def run(self, node_data):
+#
+    def run(self, DGW_node):
         """Confirms model has a startNode and and endNode and 
            begins an event loop on the startNode."""
+           # Exception Handling: https://wiki.python.org/moin/HandlingExceptions
+        try:
+           operator = self.callbacks[self.startNode]
+        except:
+
+
+
+
