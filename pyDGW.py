@@ -39,24 +39,26 @@ class DGW:
 
 
     def __init__(self):
-        """constructor for the python Directed Graph Walker
+        """constructor for the python Directed Graph Walker.
            Each node (or state/vertex) has a callback, and it is
            the callback that defines the edges"""
+        self.callbacks = {} #Dictionary of node_name:callback
+        self.startNode = None #Set startNode to "NULL"
+        self.endNodes  = [] #list of nodes that can exit.
 
 
-
-    def addNode(self, name, callback):
+    def addNode(self, node_name, callback):
         """Adds a node and its callback to our nodelist. This 
            is the actual node, the callbacks define the edges"""
 
 
 
-    def setStartNode(self, name):
+    def setStartNode(self, node_name):
         """Sets a node to be a startNode for the graph walker"""
 
 
 
-    def setEndNode(self, name):
+    def setEndNode(self, node_name):
         """Sets a node to be an endNode for the graph walker"""
 
 
