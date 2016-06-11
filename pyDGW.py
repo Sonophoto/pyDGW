@@ -53,16 +53,20 @@ class DGW:
       be ending or starting nodes, and then walking thru the nodes by
       calling the callback function of each node it enters beginning 
       with the start node until it enters an end node."""
+
    def __init__(self):
-      """constructor for the python Directed Graph Walker.  Each node (or state/vertex) has a callback, and it is the callback that defines the edges"""
+      """constructor for the python Directed Graph Walker.  Each node
+      (or state/vertex) has a callback, and it is the callback that 
+      defines the edges"""
       self.callbacks = {}    #Dictionary of node_name:callback PERL:HASH
       self.startNode = None  #Set startNode to "NULL"        PERL:SCALAR 
       self.endNodes  = []    #list of nodes that can exit.     PERL:LIST
+      # every flippin thing in the language is a reference! see id() 
 
 
    def addNode(self, node_name, callback):
-      """Adds a node and its callback to our nodelist. This 
-           is the actual node, the callbacks define the edges"""
+      """Adds a node and its callback to our nodelist. This is the 
+      actual node, the callbacks define the edges"""
 
       self.callbacks[node_name] = callback # Popu. Asso. Array.
 
@@ -84,12 +88,13 @@ class DGW:
            begins an event loop on the startNode."""
            # Exception Handling: https://wiki.python.org/moin/HandlingExceptions
       try:
-           operator = self.callbacks[self.startNode]
+         operator = self.callbacks[self.startNode]
       except:
-          print(sys.stderr, "No starting node has been set, aborting")
+         sys.exit("No starting node has been set, aborting")
       
-       if not self.endNodes: 
-          print(sys.stderr, "No ending node has been set, aborting")
+      if not self.endNodes: 
+         sys.exit("No ending node has been set, aborting")
+
 
 
 
