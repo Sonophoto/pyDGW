@@ -16,15 +16,6 @@
   COPYRIGHT: "2016 Brig Young, http://SonophotoStudios.com/" 
     LICENSE: "BSD 2-Clause, See LICENSE file in project root"         
 
-  ASCII_ART: Jennifer E. Swofford
-                      __    __    __    __
-                     /  \  /  \  /  \  /  \
-____________________/  __\/  __\/  __\/  __\_____________________________
-___________________/  /__/  /__/  /__/  /________________________________
-                   | / \   / \   / \   / \  \____
-                   |/   \_/   \_/   \_/   \    o \
-                                           \_____/--<
-
 *********************************************************************
 
 Maintains a list of Nodes in a graph with the callback functions
