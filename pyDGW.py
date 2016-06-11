@@ -42,7 +42,7 @@ import sys
 #Instance method objects have attributes, too: m.__self__ is the instance object with the method m(), and m.__func__ is the function object corresponding to the method.
 
 
-class DGW_node:
+class DGW_data:
    pass
 
 
@@ -94,6 +94,13 @@ class DGW:
       
       if not self.endNodes: 
          sys.exit("No ending node has been set, aborting")
+
+      while TRUE:
+         (next_node, DGW_data) = operator(DGW_data)
+         if next_node in self.endNodes: # We have reached an endNode
+            break;
+         else:                          # Otherwise, set the next operator
+            operator = self.callbacks[next_node]
 
 
 
