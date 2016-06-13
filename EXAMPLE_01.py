@@ -8,7 +8,7 @@ DGW_state = pyDGW.DGW_data()
 number = 0 
 
 def DGWOP_start(DGW_state):
-   """Our start state initializes DGW_state.count = 0"""
+   """Our start state initializes DGW_state.count = 1"""
    print("We have reached The Beginning")
    DGW_state.number = 1
    operator = "stop"
@@ -17,7 +17,7 @@ def DGWOP_start(DGW_state):
    return(operator, DGW_state)
 
 def DGWOP_stop(DGW_state):
-   """Exits the state machine and prints our count""" 
+   """Exits the state machine and prints a message""" 
    print("We have reached The End")
 
 DGW_Simple.DEBUG = True

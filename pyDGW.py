@@ -20,7 +20,7 @@
 This class implements an object that walks through a user defined
 state machine or directed graph, however you perfer to see it.
 
-Maintains a list of named nodes(vertices) in a directed graph.
+Maintains a dict of named nodes(vertices) in a directed graph.
 
 Each node has a user defined callback function that implements the
 possible transistions (edges) from itself to other nodes.
@@ -33,7 +33,8 @@ and starting nodes.
 
 Implements a mathod for walking thru the nodes by calling the
 callback function of each node it enters beginning with the start
-node until it enters an end node.
+node until it enters an end node and finally running the code in 
+the end node to generate output etc.
 """
 
 import sys
