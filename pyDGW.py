@@ -60,7 +60,7 @@ class DGWalker:
       self.callbacks = {}
       self.startNode = None 
       self.endNodes  = [] 
-      self.DEBUG     = False
+      self.DEBUG     = True
 
    def addNode(self, node_name, callback):
       """Adds a node and its callback to our dictionary."""
@@ -118,7 +118,4 @@ class DGWalker:
             operator = self.callbacks[next_node]
          if self.DEBUG:
             print("Bottom of loop, queued operator is:", operator)
-
-
-
 

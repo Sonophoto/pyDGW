@@ -9,7 +9,7 @@ DGW_state.count = 0
 DGW_state.limit = 1000
 
 # Set to True to get debugging output from the graph walker 
-DGW_Counter.DEBUG = False 
+DGW_Counter.DEBUG = True
 
 def DGWOP_start(DGW_state):
    """Our start state initializes DGW_state.count = 0"""
