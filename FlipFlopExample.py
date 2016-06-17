@@ -9,6 +9,8 @@ DGW_state.state = 0
 DGW_state.limit = 1000
 
 # Set to True to get debugging output from the graph walker 
+DGW_FlipFlop.KDEBUG = True
+# Set to True to use: "if DGW_FlipFlop.DEBUG: print()" for debugging
 DGW_FlipFlop.DEBUG = True 
 
 def DGWOP_start(DGW_state):
