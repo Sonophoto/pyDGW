@@ -1,3 +1,4 @@
+
 """
 *********************************************************************
                    python Directed Graph Walker
@@ -37,87 +38,108 @@ node until it enters an end node and finally running the code in
 the end node to generate output etc.
 """
 
+
 import sys
 
 
 class DGW_data:
-   """This is an empty class that is to be instantiated and then 
-   populated with whatever variables your state machine needs to
-   maintain. It will be passed from node to node automatically"""
+   """
+   This is the Data class for the DGW. Create an instance that
+   inherits from this class and then extend it with the variables
+   you need to track.It will be passed around automatically
+   """
    pass
 
 
 class DGWalker:
-   """This class implements the actual graph walker and the support 
-   functions to initialize it. The constructor creates a blank object
-   and the methods addNode(), setStartNode() and setEndNodes() are used
-   to configure the state machine with named nodes and callbacks"""
+   """
+   Implements the  DGW. The constructor creates a blank object.
+   Methods addNode(), setStartNode() and setEndNodes() are used to
+   configure the state machine with named nodes and callbacks
+   """
 
    def __init__(self):
-      """
-      Constructor for the python Directed Graph Walker. 
-      We have an empty dictionary for our node_name->callback association.
-      We have an empty startNode
-      We have an empty list of endNodes.
-      We have flags for controlling diagnostics and status updates
-      """
+      """Constructor initializes data members and DEBUG defaults"""
+
+      self.operator_counter = 0
+      """This counts how many operations have been performed from
+      .startNode to .endNodes[]."""
+
+      self.node_counter = 1
+      """This counts how many nodes have been entered including the
+      .startNode."""
+
       self.callbacks = {}
-      self.startNode = None 
-      self.endNodes  = [] 
-      self.DEBUG     = False # Debug User Code      DEFAULT: False
-      self.KDEBUG    = False # Kernel status output DEFAULT: False
-      self.SDEBUG    = True  # Verbose Setup        DEFAULT: True
-                               # We want this but it can be turned off
+      """The dictionary of node names and their callbacks"""
+
+      self.startNode = None
+      """The node name to use as the initial callback key"""
+
+      self.endNodes = []
+      """A list of node names to use as the final callback key."""
+
+      self.DEBUG     = False
+      """Debug User Code      DEFAULT: False"""
+
+      self.KDEBUG    = False
+      """Kernel status output DEFAULT: False"""
+
+      self.SDEBUG    = True
+      """Verbose Setup        DEFAULT: True
+      We want this but it can be turned off """
 
    def addNode(self, node_name, callback):
       """Adds a node_name and its callback ref to our .callbacks dictionary."""
-      # This creates a hash (dict) of nodes and their callback references
+      self.callbacks[node_name] = callback 
       if self.SDEBUG:
          print("Adding node:", node_name)
-      self.callbacks[node_name] = callback 
-
 
    def setStartNode(self, node_name):
-      """Sets node_name to be the .startNode for the graph walker"""
+      """Sets node_name to be the .startNode for the graph walker."""
+      self.startNode = node_name
       if self.SDEBUG:
          print("setting", node_name, "to .startNode")
-      # This sets a scalar value to our .startNode
-      self.startNode = node_name
-
 
    def setEndNode(self, node_name):
-      """Appends node_name to the .endNodes list for the graph walker"""
+      """
+      Appends node_name to the .endNodes list for the graph walker.
+      The callback in all .endNodes is called upon entry to the node.
+      This allows the user to print final results before pyDGW halts
+      """
+      self.endNodes.append(node_name)
       if self.SDEBUG:
          print("Adding", node_name, "to .endNodes list")
-      # This creates a list of .endNodes for our run() loop control 
-      self.endNodes.append(node_name)
 
+   def update_kernel_counter(self):
+       """PRIVATE: This is called in the kernel loop to update"""
+       self.node_counter = self.node_counter + 1
+       self.operator_counter = self.operator_counter + 1
 
    def run(self, DGW_node):
       """
-      Confirms model has a startNode and at least one endNode. 
-      Begins an infinite loop on the startNode.
-      Loop breaks when we reach an endNode and run its operator code.
+      Sanity Checks: .startNode and at least one .endNodes are set. 
+      Loop: Until we reach an endNode and run its operator code.
       """
-
-      # Make sure we have a .startNode
+     
+      # SETUP: make sure we have a .startNode and at least one .endNodes[]
       try:
          operator = self.callbacks[self.startNode]
       except:
          sys.exit("No starting node has been set, use .setStartNode()")
-      if self.KDEBUG:
-         print("Start Node is:", self.startNode)
-      # Make sure we have At Least one .endNode.
+
       if not self.endNodes: 
          sys.exit("No ending nodes have been set, use .setEndNode()")
-      if self.KDEBUG:
-         print("End Nodes are:", self.endNodes)
+      if self.KDEBUG: 
+          print("Start Node is:", self.startNode)
+          print("End Nodes are:", self.endNodes)
       
-      # Loop until we hit an end state and then run its code (output)
+      # LOOP: until we hit an end state and then run its code (output)
       while True:
          (next_node, DGW_node) = operator(DGW_node)
+         self.update_kernel_counter()
          if self.KDEBUG:
             print("next_node is:", next_node)
+
          if next_node in self.endNodes:
             if self.KDEBUG:
                print("next_node is an endNode:", next_node)
@@ -128,4 +150,9 @@ class DGWalker:
             operator = self.callbacks[next_node]
          if self.KDEBUG:
             print("Bottom of loop, queued operator is:", operator)
+
+
+if __name__ == "__main__":
+    # TODO Add a test case
+    pass
 
