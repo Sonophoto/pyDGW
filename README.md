@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Sonophoto/pyDGW.svg?branch=master)](https://travis-ci.org/Sonophoto/pyDGW)
+
 # pyDGW
 ***A class that implements a basic state machine for walking Directed State Graphs***
 
