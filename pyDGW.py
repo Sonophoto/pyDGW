@@ -159,30 +159,30 @@ if __name__ == "__main__":
    class PassingTest(unittest.TestCase):
 
       def passTest(self):
-         self.assertTrue(True, "highly improbable")
          """ This is a dummy test that always passes. 
          """
+         self.assertTrue(True, "highly improbable")
 
       def highCountTest(self):
-         self.assertTrue(True, "Failed High Count Test")
          """ Use counter example to count to 1,000,000
          """
+         self.assertTrue(True, "Failed High Count Test")
 
       def randomEndNodeTest(self):
-         self.assertTrue(True, "Failed Random End Node Test")
          """ Random generator node picks one of 6 .endNodes on each run.
              Run 30 times and pass if all nodes are reached at least once.
          """
+         self.assertTrue(True, "Failed Random End Node Test")
 
       def noStartNodeTest(self):
-         self.assertTrue(True, "Tried to execute DGWalker without a .startNode")
          """ Setup state machine with no .startNode to check error checking code
          """
+         self.assertTrue(True, "Tried to execute DGWalker without a .startNode")
 
       def noEndNodesTest(self):
-         self.assertTrue(True, "Tried to execute DGWalker without any .endNodes")
          """ Setup state machine with no .endNodes to check error checking code
          """
+         self.assertTrue(True, "Tried to execute DGWalker without any .endNodes")
 
 
    unittest.main()
