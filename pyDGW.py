@@ -5,17 +5,17 @@
 
    Python                    ____     ____  _        _
     -3.5-      _ __  _   _  |  _ \   / ___|| \      / |
-              | '_ \| | | | | | | | | |  _  \ \ /\ / / 
-              | |_) | |_| | | |_| | | |_| |  \ V  V /  
-              | .__/ \__, | |____/   \____|   \_/\_/   
-              |_|    |___/                        
+              | '_ \| | | | | | | | | |  _  \ \ /\ / /
+              | |_) | |_| | | |_| | | |_| |  \ V  V /
+              | .__/ \__, | |____/   \____|   \_/\_/
+              |_|    |___/
                 "Follow the Arrows until the end..."
 
-   FILENAME: pyDGW.py 
+   FILENAME: pyDGW.py
      AUTHOR: "Brig Young, https://github.com/Sonophoto/"
-    PURPOSE: "Implements a basic state machine architecture"               
-  COPYRIGHT: "2016 Brig Young, http://SonophotoStudios.com/" 
-    LICENSE: "BSD 2-Clause, See LICENSE file in project root"         
+    PURPOSE: "Implements a basic state machine architecture"
+  COPYRIGHT: "2016 Brig Young, http://SonophotoStudios.com/"
+    LICENSE: "BSD 2-Clause, See LICENSE file in project root"
 
 *********************************************************************
 This class implements an object that walks through a user defined
@@ -29,12 +29,12 @@ possible transistions (edges) from itself to other nodes.
 The callbacks pass an object that contains user defined state
 information and/or the data being processed to the next node.
 
-Implements methods for adding nodes, and setting nodes to be ending 
+Implements methods for adding nodes, and setting nodes to be ending
 and starting nodes.
 
 Implements a method for walking thru the nodes by calling the
 callback function of each node it enters beginning with the start
-node until it enters an end node and finally running the code in 
+node until it enters an end node and finally running the code in
 the end node to generate output etc.
 """
 
@@ -155,34 +155,73 @@ class DGWalker:
 if __name__ == "__main__":
 
    import unittest
+   import pyDGW
 
-   class PassingTest(unittest.TestCase):
+   class TestDGWalkerClass(unittest.TestCase):
 
-      def passTest(self):
+      def test_PassDummy(self):
          """ This is a dummy test that always passes. 
          """
          self.assertTrue(True, "highly improbable")
 
-      def highCountTest(self):
-         """ Use counter example to count to 1,000,000
+      def test_highCount(self):
+         """ Use counter example to count to 1,000,000.
          """
          self.assertTrue(True, "Failed High Count Test")
 
-      def randomEndNodeTest(self):
+      def test_randomEndNode(self):
          """ Random generator node picks one of 6 .endNodes on each run.
              Run 30 times and pass if all nodes are reached at least once.
          """
          self.assertTrue(True, "Failed Random End Node Test")
 
-      def noStartNodeTest(self):
-         """ Setup state machine with no .startNode to check error checking code
+      def test_noStartNode(self):
+         """ Setup state machine with no .startNode to verify error
+             checking code in the .run() function.
          """
-         self.assertTrue(True, "Tried to execute DGWalker without a .startNode")
+         """
+         DGW_Simple = pyDGW.DGWalker()
+         DGW_state = pyDGW.DGW_data()
 
-      def noEndNodesTest(self):
-         """ Setup state machine with no .endNodes to check error checking code
+         def DGWOP_stop(DGW_state):
+            pass
+
          """
-         self.assertTrue(True, "Tried to execute DGWalker without any .endNodes")
+         """Forget to set start node"""
+         """
+         DGW_Simple.addNode("stop", DGWOP_stop)
+         DGW_Simple.setEndNode("stop")
+         self.assertRaises(KeyError, DGW_Simple.run, DGW_state)
+         """
+         self.assertTrue(True)
+
+      def test_noEndNodes(self):
+         """ Setup state machine with no .endNodes to verify error
+             checking code in the .run() function.
+         """
+         self.assertTrue(True)
+
+         """
+         DGW_Simple = pyDGW.DGWalker()
+         DGW_state = pyDGW.DGW_data()
+         number = 0 
+
+         def DGWOP_start(DGW_state):
+            operator = "stop"
+            return(operator, DGW_state)
+
+         def DGWOP_stop(DGW_state):
+            pass
+
+         DGW_Simple.addNode("start", DGWOP_start)
+         DGW_Simple.addNode("stop", DGWOP_stop)
+         DGW_Simple.setStartNode("start")
+
+         self.assertRaises(IndexError, DGW_Simple.run, DGW_state)
+         """
 
 
    unittest.main()
+
+
+
