@@ -12,9 +12,9 @@ function of each node it enters beginning with the start node until it enters
 an end node.
 
 Programming a state machine is not documented here. You need data that you 
-use to keep track of your state and to process; you need a function for each
-node that manipulates that data according to rules _YOU_ define and decides 
-which state to move to next.
+use to keep track of your state or "status" and data to process; you need a
+function for each node that manipulates that data according to rules you
+define and decides which state to move to next.
 
 ***Usage:***
 
@@ -33,6 +33,10 @@ which state to move to next.
 6. Call .endNode(node_name) to add endNodes to your system
 
 7. Call .run(DWG_data)
+
+***Tutorial:
+See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
+for a heavily commented example you can use to start hacking away.
 
 ***Troubleshooting:***
 
