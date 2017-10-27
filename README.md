@@ -34,7 +34,7 @@ define and decides which state to move to next.
 
 7. Call .run(DWG_data)
 
-***Tutorial:
+***Tutorial:***
 See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
 for a heavily commented example you can use to start hacking away.
 
