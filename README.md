@@ -42,7 +42,7 @@ See [FlipFlop Example](https://github.com/Sonophoto/pyDGW/blob/master/FlipFlopEx
 and [Counter Example](https://github.com/Sonophoto/pyDGW/blob/master/CounterExample.py)
 for slightly more involved usages of pyDGW that use data values to control execution.
 
-See [Turnstyle Example](comes out tommorrow)
+See [Turnstyle Example](https://github.com/Sonophoto/pyDGW/blob/master/TurnstyleExample.py)
 For a more detailed example that takes user input with 5 states and start-up/shutdown code.
 
 ***Troubleshooting:***
