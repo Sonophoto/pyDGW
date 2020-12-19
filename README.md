@@ -34,9 +34,16 @@ define and decides which state to move to next.
 
 7. Call .run(DWG_data)
 
-***Tutorial:***
+***Tutorials:***
 See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
 for a heavily commented example you can use to start hacking away.
+
+See [FlipFlop Example](https://github.com/Sonophoto/pyDGW/blob/master/FlipFlopExample.py)
+and [Counter Example](https://github.com/Sonophoto/pyDGW/blob/master/CounterExample.py)
+for slightly more involved usages of pyDGW that use data values to control execution.
+
+See [Turnstyle Example](comes out tommorrow)
+For a more detailed example that takes user input with 5 states and start-up/shutdown code.
 
 ***Troubleshooting:***
 
