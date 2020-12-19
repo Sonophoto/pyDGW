@@ -32,7 +32,7 @@ define and decides which state to move to next.
 
 6. Call .endNode(node_name) to add endNodes to your system
 
-7. Call .run(DWG_data)
+7. Call .run(DGW_data)
 
 ***Tutorials:***
 See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
