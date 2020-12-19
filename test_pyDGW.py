@@ -1,4 +1,15 @@
-if __name__ == "__main__":
+"""
+*************************************************************************
+   Testing Harness for pyDGW
+
+   FILENAME:  test_pyDGW.py
+   AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
+   PURPOSE:   "Runs test on pyDGW for Quality Assurance"
+   COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
+   LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
+
+*************************************************************************
+"""
 
    import unittest
    import pyDGW
@@ -65,7 +76,5 @@ if __name__ == "__main__":
 
          self.assertRaises(IndexError, DGW_Simple.run, DGW_state)
          """
-
-
+   
    unittest.main()
-
