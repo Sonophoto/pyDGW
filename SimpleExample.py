@@ -1,11 +1,11 @@
 """
 *************************************************************************   
- ____  _                 _        _____ ____  __  __ 
-/ ___|(_)_ __ ___  _ __ | | ___  |  ___/ ___||  \/  |
-\___ \| | '_ ` _ \| '_ \| |/ _ \ | |_  \___ \| |\/| |
- ___) | | | | | | | |_) | |  __/ |  _|  ___) | |  | |
-|____/|_|_| |_| |_| .__/|_|\___| |_|   |____/|_|  |_|
-                  |_|                                
+     ____  _                 _          _____ ____  __  __ 
+    / ___|(_)_ __ ___  _ __ | | ___    |  ___/ ___||  \/  |
+    \___ \| | '_ ` _ \| '_ \| |/ _ \   | |_  \___ \| |\/| |
+     ___) | | | | | | | |_) | |  __/   |  _|  ___) | |  | |
+    |____/|_|_| |_| |_| .__/|_|\___|   |_|   |____/|_|  |_|
+                      |_|                                
 
    FILENAME:  SimpleExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
@@ -37,7 +37,7 @@ def DGWOP_start(DGW_state):               # A Start Node is required
 def DGWOP_stop(DGW_state):
    """Our stop state"""
    DGW_state.the_answer = 42              # Do any final processing at shutdown
-   print("We have stopped")               
+   print("We have stopped")
    return(DGW_state)                      # Returning our completed "output"
 
 
