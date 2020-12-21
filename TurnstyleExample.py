@@ -53,88 +53,88 @@
 import datetime as dt
 import pyDGW
 
+Turnstyle_state = pyDGW.DGW_data()
+Turnstyle_state.alarm_status = 0
+Turnstyle_state.token_total = 0
+Turnstyle_state.pass_total = 0
+Turnstyle_state.alarm_total = 0
+
 DGW_Turnstyle = pyDGW.DGWalker()
 
 DGW_Turnstyle.DEBUG = False      # User debug watches for user code
 DGW_Turnstyle.KDEBUG = False     # Kernel debug watches from pyDGW
 DGW_Turnstyle.SDEBUG = False     # Verbose operating messages from pyDGW
 
-DGW_state = pyDGW.DGW_data()
-DGW_state.alarm_status = 0
-DGW_state.token_total = 0
-DGW_state.pass_total = 0
-DGW_state.alarm_total = 0
-
-def OP_start(DGW_state):
+def OP_start(Turnstyle_state):
    print("\nTurnstyle power is ON, initializing...")
    print("Type 'shutdown' at any input to shutdown Turnstyle")
-   DGW_state.alarm_status = 0 
-   return("accept_token", DGW_state)
+   Turnstyle_state.alarm_status = 0 
+   return("accept_token", Turnstyle_state)
 
-def OP_accept_token(DGW_state):
+def OP_accept_token(Turnstyle_state):
    print("\nWelcome to the pyDGW Turnstyle!")
    print("Enter 'pass' to go through the turnstyle")
    print("Enter 'token' to insert a token")
    commandline = input()
    if "pass" in commandline:
-      DGW_state.alarm_status = 1
-      DGW_state.pass_total += 1              # UNPAID PASS
-      return("alarm", DGW_state)
+      Turnstyle_state.alarm_status = 1
+      Turnstyle_state.pass_total += 1              # UNPAID PASS
+      return("alarm", Turnstyle_state)
    if "token" in commandline:
-      DGW_state.token_total += 1
-      return("unlock", DGW_state)
+      Turnstyle_state.token_total += 1
+      return("unlock", Turnstyle_state)
    if "shutdown" in commandline:
-      return("stop", DGW_state)
+      return("stop", Turnstyle_state)
    #else ignore bad input
    print("We are sorry, please try again...")
-   return("accept_token", DGW_state)         
+   return("accept_token", Turnstyle_state)         
 
-def OP_unlock(DGW_state):
+def OP_unlock(Turnstyle_state):
    print("\nThank You for your business!")
    print("please enter 'pass' to go through the turnstyle")
    print("enter 'token' to donate additional tokens")
    commandline = input()
    if 'token' in commandline:
       print("Thanks for the tip!")
-      DGW_state.token_total += 1             # DONATION
-      return("unlock", DGW_state)
+      Turnstyle_state.token_total += 1             # DONATION
+      return("unlock", Turnstyle_state)
    if 'pass' in commandline:
       print("Have a safe Trip!")
-      DGW_state.pass_total += 1              # PAID PASS
-      return("accept_token", DGW_state)
+      Turnstyle_state.pass_total += 1              # PAID PASS
+      return("accept_token", Turnstyle_state)
    if "shutdown" in commandline:
-      return("stop", DGW_state)
+      return("stop", Turnstyle_state)
    #else ignore bad input
    print("We are sorry, please try again...")
-   return("unlock", DGW_state)
+   return("unlock", Turnstyle_state)
 
-def OP_alarm(DGW_state):
-   DGW_state.alarm_total += 1
+def OP_alarm(Turnstyle_state):
+   Turnstyle_state.alarm_total += 1
    _soundAlarm()
    commandline = input()
    if "password" in commandline:
-      return('start', DGW_state)
+      return('start', Turnstyle_state)
    if "shutdown" in commandline:
-      DGW_state.alarm_status = 0
-      return('stop', DGW_state)
+      Turnstyle_state.alarm_status = 0
+      return('stop', Turnstyle_state)
    #else bad password: stop!
-   return('stop', DGW_state)
+   return('stop', Turnstyle_state)
 
-def OP_stop(DGW_state):
-   if DGW_state.alarm_status:
+def OP_stop(Turnstyle_state):
+   if Turnstyle_state.alarm_status:
       _soundBadPassword() 
    print("\nOperations Report for: ", dt.date.today().ctime())
    print("-------------------------------------------------")
-   print(" Total Sales: ", DGW_state.token_total)     
-   print("Total Passes: ", DGW_state.pass_total)
-   print("Total Alarms: ", DGW_state.alarm_total)
-   if DGW_state.pass_total != 0:
-      print(" Tokens/Pass: ", DGW_state.token_total / DGW_state.pass_total)
+   print(" Total Sales: ", Turnstyle_state.token_total)     
+   print("Total Passes: ", Turnstyle_state.pass_total)
+   print("Total Alarms: ", Turnstyle_state.alarm_total)
+   if Turnstyle_state.pass_total != 0:
+      print(" Tokens/Pass: ", Turnstyle_state.token_total / Turnstyle_state.pass_total)
    else:
       print(" Tokens/Pass: Not applicable")
    print("-------------------------------------------------")
    print("\nTurnstyle power is OFF, Goodbye\n")
-   return(DGW_state)
+   return(Turnstyle_state)
 
 # Lets wrap our alarm notifications to unclutter our code:
 
@@ -159,4 +159,4 @@ DGW_Turnstyle.addNode("alarm", OP_alarm)
 DGW_Turnstyle.addNode("stop", OP_stop)
 DGW_Turnstyle.setStartNode("start")
 DGW_Turnstyle.setEndNode("stop")
-DGW_Turnstyle.run(DGW_state)
+DGW_Turnstyle.run(Turnstyle_state)
