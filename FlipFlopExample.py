@@ -34,7 +34,7 @@ DGW_FlipFlop.DEBUG = True
 # Set to True to get operating status messages from pyDGW
 DGW_FlipFlop.SDEBUG = False
 
-def DGWOP_start(FF_state):
+def OP_start(FF_state):
    """Our start state initializes our flip flop"""
    print("Beginning FlipFlopping...")
    if DGW_FlipFlop.DEBUG: print("Count is: ", FF_state.counter)
@@ -43,7 +43,7 @@ def DGWOP_start(FF_state):
    return(operator, FF_state)
 
 
-def DGWOP_flip(FF_state):
+def OP_flip(FF_state):
    """We are Flip, if toggled we flop"""
    if FF_state.counter == FF_state.limit: FF_state.state = 2
    if FF_state.state == 0:
@@ -58,7 +58,7 @@ def DGWOP_flip(FF_state):
    return(operator, FF_state)
 
 
-def DGWOP_flop(FF_state):
+def OP_flop(FF_state):
    """We are Flop, if toggled we flip"""
    if FF_state.counter == FF_state.limit: FF_state.state = 2
    if FF_state.state == 1:
@@ -73,14 +73,14 @@ def DGWOP_flop(FF_state):
    return(operator, FF_state)
 
 
-def DGWOP_stop(FF_state):
+def OP_stop(FF_state):
    """Exits the state machine, allows us to output data""" 
    print("We have executed ", FF_state.counter, " Flip Flops")
 
-DGW_FlipFlop.addNode("start", DGWOP_start)
-DGW_FlipFlop.addNode("flip", DGWOP_flip)
-DGW_FlipFlop.addNode("flop", DGWOP_flop)
-DGW_FlipFlop.addNode("stop", DGWOP_stop)
+DGW_FlipFlop.addNode("start", OP_start)
+DGW_FlipFlop.addNode("flip", OP_flip)
+DGW_FlipFlop.addNode("flop", OP_flop)
+DGW_FlipFlop.addNode("stop", OP_stop)
 DGW_FlipFlop.setStartNode("start")
 DGW_FlipFlop.setEndNode("stop")
 DGW_FlipFlop.run(FF_state)
