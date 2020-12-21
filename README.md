@@ -38,12 +38,15 @@ define and decides which state to move to next.
 See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
 for a heavily commented example you can use to start hacking away.
 
-See [FlipFlop Example](https://github.com/Sonophoto/pyDGW/blob/master/FlipFlopExample.py)
-and [Counter Example](https://github.com/Sonophoto/pyDGW/blob/master/CounterExample.py)
+See [Counter Example](https://github.com/Sonophoto/pyDGW/blob/master/CounterExample.py)
+and [FlipFlop Example](https://github.com/Sonophoto/pyDGW/blob/master/FlipFlopExample.py)
 for slightly more involved usages of pyDGW that use data values to control execution.
 
 See [Turnstyle Example](https://github.com/Sonophoto/pyDGW/blob/master/TurnstyleExample.py)
 For a more detailed example that takes user input with 5 states and start-up/shutdown code.
+
+See [CoinOp Example (in progress 21-Dec-2020)](https://github.com/Sonophoto/pyDGW/blob/master/CoinOpExample.py)
+For an even more detailed example with several states, closer to a real world machine.
 
 ***Troubleshooting:***
 
@@ -57,3 +60,5 @@ to get kernel output, and you can then use
          print("debugging info:", var_to_watch)
 
 in your own code to control debugging output
+
+If you think you have found a bug PLEASE, let me know (File an Issue), I want this project to be perfect. Patches (PRs) are very welcome and will be added to your credit if correct.
