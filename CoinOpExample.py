@@ -22,8 +22,7 @@
    regular imperative code. This model is not that far from a finished
    machine and has more features than any OG vending machine.
 
-
-
+   TODO: Overview of Model
 
    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    This example goes further by showing how a python module can hide
@@ -119,4 +118,3 @@ DGW_CoinOp.addNode("stop", OP_stop)
 DGW_CoinOp.setStartNode("start")
 DGW_CoinOp.setEndNode("stop")
 DGW_CoinOp.run(CoinOp_state)
-

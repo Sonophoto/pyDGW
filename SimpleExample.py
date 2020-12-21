@@ -9,7 +9,7 @@
 
    FILENAME:  SimpleExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
-   PURPOSE:   "Implements the simplest possible state machine"
+   PURPOSE:   "Implements the simplest possible FSM, Extra Comments"
    COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
    LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
 
@@ -42,7 +42,6 @@ def OP_start(Simple_state):              # A Start Node is required
    return(operator, Simple_state)        # Pass operator and modified state 
                                          # back to DGWalker which will load
                                          # and execute the next node.
-
 def OP_stop(Simple_state):
    """Our stop state"""
    Simple_state.the_answer = 42        # Do any final processing at shutdown

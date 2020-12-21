@@ -16,8 +16,6 @@
 *************************************************************************   
 """
 
-""" Silly but very clear example of how to use the library to create a state machine"""
-
 import pyDGW
 
 DGW_FlipFlop = pyDGW.DGWalker()
@@ -42,7 +40,6 @@ def OP_start(FF_state):
    operator = "flip"
    return(operator, FF_state)
 
-
 def OP_flip(FF_state):
    """We are Flip, if toggled we flop"""
    if FF_state.counter == FF_state.limit: FF_state.state = 2
@@ -57,7 +54,6 @@ def OP_flip(FF_state):
       operator = "stop"
    return(operator, FF_state)
 
-
 def OP_flop(FF_state):
    """We are Flop, if toggled we flip"""
    if FF_state.counter == FF_state.limit: FF_state.state = 2
@@ -71,7 +67,6 @@ def OP_flop(FF_state):
    if FF_state.state == 2:
       operator = "stop"
    return(operator, FF_state)
-
 
 def OP_stop(FF_state):
    """Exits the state machine, allows us to output data""" 

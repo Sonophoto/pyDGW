@@ -65,7 +65,6 @@ DGW_state.token_total = 0
 DGW_state.pass_total = 0
 DGW_state.alarm_total = 0
 
-
 def OP_start(DGW_state):
    print("\nTurnstyle power is ON, initializing...")
    print("Type 'shutdown' at any input to shutdown Turnstyle")
@@ -97,7 +96,7 @@ def OP_unlock(DGW_state):
    commandline = input()
    if 'token' in commandline:
       print("Thanks for the tip!")
-      DGW_state.token_total += 1            # DONATION
+      DGW_state.token_total += 1             # DONATION
       return("unlock", DGW_state)
    if 'pass' in commandline:
       print("Have a safe Trip!")
@@ -118,7 +117,7 @@ def OP_alarm(DGW_state):
    if "shutdown" in commandline:
       DGW_state.alarm_status = 0
       return('stop', DGW_state)
-   #else ignore bad input and stop
+   #else bad password: stop!
    return('stop', DGW_state)
 
 def OP_stop(DGW_state):
@@ -161,4 +160,3 @@ DGW_Turnstyle.addNode("stop", OP_stop)
 DGW_Turnstyle.setStartNode("start")
 DGW_Turnstyle.setEndNode("stop")
 DGW_Turnstyle.run(DGW_state)
-
