@@ -59,7 +59,7 @@ class TestDGWalkerClass(unittest.TestCase):
      self.assertRaises(SystemExit, NoEndNodeTest.run, no_end_node_state)
 
   def test_highCount(self):
-     """ Even odd counter counts to 10,00O using a 3 state machine
+     """ Simple counter counts to 10,00O using a 3 state machine
          with a start node, a worker node and an end node"
      """
      print("\nTesting a complete machine: HiCountTest")
