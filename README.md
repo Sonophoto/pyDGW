@@ -50,15 +50,22 @@ For an even more detailed example with several states, closer to a real world ma
 
 ***Troubleshooting:***
 
-In your code, set 
+To help when debugging your code, system messages about what pyDGW is doing can be a big help:
 
-      .DEBUG = True 
+      (YourObjectName).SDEBUG = True      # Default is True so pyDGW will use verbose messaging
 
-to get kernel output, and you can then use
+To see what the kernel is doing internally (could be hundreds or thousands of message in one run):
 
-      if .DEBUG:
-         print("debugging info:", var_to_watch)
+      (YourObjectName).KDEBUG = True      # Default is "False"
 
-in your own code to control debugging output
+To setup debugging messages for your own code use this:
+
+      (YourObjectName).DEBUG = True       # Default is "False"
+      
+then add message lines like the following as needed in the code in your nodes
+
+      if (YourObjectName).DEBUG: print("debugging info:", var_to_watch)
+
+[Read the modules code and comments for more details](https://github.com/Sonophoto/pyDGW/blob/master/pyDGW.py)
 
 If you think you have found a bug PLEASE, let me know (File an Issue), I want this project to be perfect. Patches (PRs) are very welcome and will be added to your credit if correct.
