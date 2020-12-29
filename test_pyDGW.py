@@ -16,65 +16,84 @@ import pyDGW
 
 class TestDGWalkerClass(unittest.TestCase):
 
-   def test_PassDummy(self):
-      """ This is a dummy test that always passes. 
-      """
-      self.assertTrue(True, "highly improbable")
+  def test_PassDummy(self):
+     """ This is a dummy test that always passes.
+     """
+     print("\nPassing the dummy test")
+     self.assertTrue(True, "highly improbable")
 
-   def test_highCount(self):
-      """ Use counter example to count to 1,000,000.
-      """
-      self.assertTrue(True, "Failed High Count Test")
+  def test_noStartNode(self):
+     """ Setup state machine with no .startNode to verify that .run()
+         will trigger a SystemExit exception
+     """
+     print("\nTesting with a missing start node")
+     NoStartNodeTest = pyDGW.DGWalker()
+     no_start_node_state = pyDGW.DGW_data()
 
-   def test_randomEndNode(self):
-      """ Random generator node picks one of 6 .endNodes on each run.
-          Run 30 times and pass if all nodes are reached at least once.
-      """
-      self.assertTrue(True, "Failed Random End Node Test")
+     def OP_stop(no_start_node_state):
+        pass
 
-   def test_noStartNode(self):
-      """ Setup state machine with no .startNode to verify error
-          checking code in the .run() function.
-      """
-      """
-      DGW_Simple = pyDGW.DGWalker()
-      DGW_state = pyDGW.DGW_data()
+     """Forget to set start node"""
+     NoStartNodeTest.addNode("stop", OP_stop)
+     NoStartNodeTest.setEndNode("stop")
 
-      def DGWOP_stop(DGW_state):
-         pass
+     """If there is no start node set the library should force exit."""
+     self.assertRaises(SystemExit, NoStartNodeTest.run, no_start_node_state)
 
-      """
-      """Forget to set start node"""
-      """
-      DGW_Simple.addNode("stop", DGWOP_stop)
-      DGW_Simple.setEndNode("stop")
-      self.assertRaises(KeyError, DGW_Simple.run, DGW_state)
-      """
-      self.assertTrue(True)
+  def test_noEndNode(self):
+     """ Setup state machine with no .endNodes to verify that .run()
+         will trigger a SystemExit exception
+     """
+     print("\nTesting with a missing end node")
+     NoEndNodeTest = pyDGW.DGWalker()
+     no_end_node_state = pyDGW.DGW_data()
 
-   def test_noEndNodes(self):
-      """ Setup state machine with no .endNodes to verify error
-          checking code in the .run() function.
-      """
-      self.assertTrue(True)
+     def OP_start(no_end_node_state):
+        pass
 
-      """
-      DGW_Simple = pyDGW.DGWalker()
-      DGW_state = pyDGW.DGW_data()
-      number = 0 
+     """Forget to set an end node"""
+     NoEndNodeTest.addNode("start", OP_start)
+     NoEndNodeTest.setStartNode("start")
 
-      def DGWOP_start(DGW_state):
-      operator = "stop"
-         return(operator, DGW_state)
+     """If there is no end node(s) set the library should force exit."""
+     self.assertRaises(SystemExit, NoEndNodeTest.run, no_end_node_state)
 
-      def DGWOP_stop(DGW_state):
-         pass
+  def test_highCount(self):
+     """ Even odd counter counts to 10,00O using a 3 state machine
+         with a start node, a worker node and an end node"
+     """
+     print("\nTesting a complete machine: HiCountTest")
+     HiCountTest = pyDGW.DGWalker()
 
-      DGW_Simple.addNode("start", DGWOP_start)
-      DGW_Simple.addNode("stop", DGWOP_stop)
-      DGW_Simple.setStartNode("start")
+     hi_count_state = pyDGW.DGW_data()
+     hi_count_state.count = 0
+     hi_count_state.limit = 10000
 
-      self.assertRaises(IndexError, DGW_Simple.run, DGW_state)
-      """
-   
+     def OP_start(hi_count_state):
+        hi_count_state.limit = 10000
+        return("work", hi_count_state)
+
+     def OP_work(hi_count_state):
+         if hi_count_state.count < hi_count_state.limit:
+             hi_count_state.count += 1
+             return("work", hi_count_state)
+         if hi_count_state.count == hi_count_state.limit:
+             return("stop", hi_count_state)
+
+     def OP_stop(hi_count_state):
+         return(hi_count_state)
+
+     HiCountTest.addNode("start", OP_start)
+     HiCountTest.addNode("work", OP_work)
+     HiCountTest.addNode("stop", OP_stop)
+     HiCountTest.SDEBUG = False      # We only want to see the addNode messaging
+     HiCountTest.setStartNode("start")
+     HiCountTest.setEndNode("stop")
+     HiCountTest.run(hi_count_state)
+
+     """If the library works .count and .limit should now be equal"""
+     self.assertEqual(hi_count_state.count, hi_count_state.limit)
+
+
 unittest.main()
+
