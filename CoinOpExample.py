@@ -44,6 +44,14 @@
    I hope this code encourages you to play with and learn more about 
    Finite State Machines AKA Directed Graph Walkers.
 
+   NOTE: For more advanced programmers this is a first level abstraction
+         and for working code would need a refactor. I know this ;-) This
+         is a teaching example so it is written this way so as not to 
+         confuse less advanced students. Once they understand this we can 
+         move on to passing around references more aggresively with an 
+         aggresive refactoring pass. If it is not here when you read this:
+
+                    Feel Free to PR and get credit <wink>
 """
 
 import datetime as dt
@@ -68,8 +76,7 @@ CoinOp_state.quarters_total = 0
 CoinOp_state.rootbeer_inventory = 0
 CoinOp_state.grape_inventory = 0
 CoinOp_state.orange_inventory = 0
-CoinOp_state.orange_inventory = 0
-CoinOp_state.soda_price = 0
+CoinOp_state.soda_price = 65 
 CoinOp_state.change_due = 0
 
 
@@ -82,19 +89,78 @@ def OP_start(CoinOp_state):
 
 def OP_accept_coins(CoinOp_state):
    print("\nWelcome to the pyDGW Soda Machine!")
+   print("Sodas are ", CoinOp_state.soda_price, " cents")
    print("Enter 'nickel' or 'dime' or 'quarter' to pay")
    print("Enter 'refund' to get your coins back")
    print("Enter 'restock' or 'report' or 'shutdown' to admin")
    commandline = input()
-   return("dispense", CoinOp_state)         
+#BUGBUG We need to check if total is sufficient WITH EACH COIN
+
+   if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+      return ('dispense', CoinOp_state)
+   if 'nickel' in commandline:
+       CoinOp_state.tender_total += 5
+       return ('accept_coins', CoinOp_state)
+   if 'dime' in commandline:
+       CoinOp_state.tender_total += 10
+       return ('accept_coins', CoinOp_state)
+   if 'quarter' in commandline:
+       CoinOp_state.tender_total += 25
+       return ('accept_coins', CoinOp_state)
+   if 'refund' in commandline:
+       return ('refund', CoinOp_state)
+   if 'restock' in commandline:
+       return ('restock', CoinOp_state)
 
 def OP_dispense(CoinOp_state):
    print("\nThank You for your business!")
    print("Enter 'rootbeer' or 'grape' or 'orange' to vend")
-   return("stop", CoinOp_state) 
+   commandline = input()
+   if 'rootbeer' in commandline:
+      if CoinOp_state.rootbeer_inventory > 0:
+         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
+         CoinOp_state.rootbeer_inventory -= 1
+         print("\nHere is your cold rootbeer. Enjoy!")
+         return('refund', CoinOp_state)
+      else:
+         print("\nSorry! rootbeer is out of stock")
+         return('dispense', CoinOp_state)
+   if 'grape' in commandline:
+      if CoinOp_state.grape_inventory > 0:
+         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
+         CoinOp_state.grape_inventory -= 1
+         print("\nHere is your cold grape soda. Enjoy!")
+         return('refund', CoinOp_state)
+      else:
+         print("\nSorry! grape is out of stock")
+         return('dispense', CoinOp_state)
+   if 'orange' in commandline:
+      if CoinOp_state.orange_inventory > 0:
+         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
+         CoinOp_state.orange_inventory -= 1
+         print("\nHere is your cold orange soda. Enjoy!")
+         return('refund', CoinOp_state)
+      else:
+         print("\nSorry! orange is out of stock")
+         return('dispense', CoinOp_state)
+
+   if 'refund' in commandline:
+       return('refund', CoinOp_state)
+     
+   # malformed input, loop back
+   return('dispense', CoinOp_state)
 
 def OP_refund(CoinOp_state):
-   pass
+   """We are using a 'trick' here. We just got the .tender_total value
+      which has been decrimented by the cost of a soda if one was sold,
+      or is the amount the customer has deposited so far: so either way
+      anything remaining is change. Easy eh?
+   """
+   print("\nThank You! Your change is ", CoinOp_state.tender_total)
+   return('accept_coins', CoinOp_state)
 
 def OP_restock(CoinOp_state):
    pass
@@ -104,6 +170,7 @@ def OP_report(CoinOp_state):
 
 def OP_stop(CoinOp_state):
    print("\nSoda Machine has shutdown: GoodBye!")
+   return(CoinOp__state)
 
 # Now we build our DGW_CoinOp object from these parts and run it:
 
