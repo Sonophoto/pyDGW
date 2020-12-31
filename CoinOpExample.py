@@ -73,9 +73,9 @@ CoinOp_state.cola_sales_total = 0
 CoinOp_state.nickels_total = 0
 CoinOp_state.dimes_total = 0
 CoinOp_state.quarters_total = 0
-CoinOp_state.rootbeer_inventory = 0
-CoinOp_state.grape_inventory = 0
-CoinOp_state.orange_inventory = 0
+CoinOp_state.rootbeer_inventory = 1
+CoinOp_state.grape_inventory = 1
+CoinOp_state.orange_inventory = 1
 CoinOp_state.soda_price = 65 
 CoinOp_state.change_due = 0
 
@@ -94,19 +94,24 @@ def OP_accept_coins(CoinOp_state):
    print("Enter 'refund' to get your coins back")
    print("Enter 'restock' or 'report' or 'shutdown' to admin")
    commandline = input()
-#BUGBUG We need to check if total is sufficient WITH EACH COIN
-
-   if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-      return ('dispense', CoinOp_state)
    if 'nickel' in commandline:
-       CoinOp_state.tender_total += 5
-       return ('accept_coins', CoinOp_state)
+      CoinOp_state.tender_total += 5
+      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+         return('dispense', CoinOp_state)
+      else:
+         return ('accept_coins', CoinOp_state)
    if 'dime' in commandline:
-       CoinOp_state.tender_total += 10
-       return ('accept_coins', CoinOp_state)
+      CoinOp_state.tender_total += 10
+      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+         return('dispense', CoinOp_state)
+      else:
+         return ('accept_coins', CoinOp_state)
    if 'quarter' in commandline:
-       CoinOp_state.tender_total += 25
-       return ('accept_coins', CoinOp_state)
+      CoinOp_state.tender_total += 25
+      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+         return('dispense', CoinOp_state)
+      else:
+         return ('accept_coins', CoinOp_state)
    if 'refund' in commandline:
        return ('refund', CoinOp_state)
    if 'restock' in commandline:
@@ -159,7 +164,7 @@ def OP_refund(CoinOp_state):
       or is the amount the customer has deposited so far: so either way
       anything remaining is change. Easy eh?
    """
-   print("\nThank You! Your change is ", CoinOp_state.tender_total)
+   print("\nThank You! Your change is ", CoinOp_state.tender_total, " cents")
    return('accept_coins', CoinOp_state)
 
 def OP_restock(CoinOp_state):
