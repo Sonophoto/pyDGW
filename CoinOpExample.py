@@ -97,25 +97,29 @@ def OP_accept_coins(CoinOp_state):
    if 'nickel' in commandline:
       CoinOp_state.tender_total += 5
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return('dispense', CoinOp_state)
+         return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'dime' in commandline:
       CoinOp_state.tender_total += 10
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return('dispense', CoinOp_state)
+         return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'quarter' in commandline:
       CoinOp_state.tender_total += 25
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return('dispense', CoinOp_state)
+         return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'refund' in commandline:
        return ('refund', CoinOp_state)
    if 'restock' in commandline:
        return ('restock', CoinOp_state)
+   if 'shutdown' in commandline:
+       return ('stop', CoinOp_state)
+   # malformed input, loop back
+   return('accept_coins', CoinOp_state)
 
 def OP_dispense(CoinOp_state):
    print("\nThank You for your business!")
@@ -127,20 +131,20 @@ def OP_dispense(CoinOp_state):
          CoinOp_state.soda_sales_total += CoinOp_state.soda_price
          CoinOp_state.rootbeer_inventory -= 1
          print("\nHere is your cold rootbeer. Enjoy!")
-         return('refund', CoinOp_state)
+         return ('refund', CoinOp_state)
       else:
          print("\nSorry! rootbeer is out of stock")
-         return('dispense', CoinOp_state)
+         return ('dispense', CoinOp_state)
    if 'grape' in commandline:
       if CoinOp_state.grape_inventory > 0:
          CoinOp_state.tender_total -= CoinOp_state.soda_price
          CoinOp_state.soda_sales_total += CoinOp_state.soda_price
          CoinOp_state.grape_inventory -= 1
          print("\nHere is your cold grape soda. Enjoy!")
-         return('refund', CoinOp_state)
+         return ('refund', CoinOp_state)
       else:
          print("\nSorry! grape is out of stock")
-         return('dispense', CoinOp_state)
+         return ('dispense', CoinOp_state)
    if 'orange' in commandline:
       if CoinOp_state.orange_inventory > 0:
          CoinOp_state.tender_total -= CoinOp_state.soda_price
@@ -150,11 +154,9 @@ def OP_dispense(CoinOp_state):
          return('refund', CoinOp_state)
       else:
          print("\nSorry! orange is out of stock")
-         return('dispense', CoinOp_state)
-
+         return ('dispense', CoinOp_state)
    if 'refund' in commandline:
        return('refund', CoinOp_state)
-     
    # malformed input, loop back
    return('dispense', CoinOp_state)
 
@@ -165,6 +167,9 @@ def OP_refund(CoinOp_state):
       anything remaining is change. Easy eh?
    """
    print("\nThank You! Your change is ", CoinOp_state.tender_total, " cents")
+   # In a real machine we would release the coins here
+   # History: In the old days this was a seperate rack of nickels
+   CoinOp_state.tender_total = 0
    return('accept_coins', CoinOp_state)
 
 def OP_restock(CoinOp_state):
@@ -175,7 +180,7 @@ def OP_report(CoinOp_state):
 
 def OP_stop(CoinOp_state):
    print("\nSoda Machine has shutdown: GoodBye!")
-   return(CoinOp__state)
+   return (CoinOp__state)
 
 # Now we build our DGW_CoinOp object from these parts and run it:
 
