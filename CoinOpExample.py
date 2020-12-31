@@ -173,14 +173,31 @@ def OP_refund(CoinOp_state):
    return('accept_coins', CoinOp_state)
 
 def OP_restock(CoinOp_state):
-   pass
+   print("\nenter soda name and count to restock")
+   print("eg. rootbeer 6")
+   soda_name, soda_count = "",0    # tuple assignment
+   commandline = input() 
+   (soda_name, soda_count) = commandline.split()
+   print(soda_name, soda_count)
+   if 'rootbeer' in soda_name:
+       CoinOp_state.rootbeer_inventory += soda_count
+       return ('accept_coins', CoinOp_state) 
+   if 'grape' in soda_name:
+       CoinOp_state.grape_inventory += soda_count
+       return ('accept_coins', CoinOp_state) 
+   if 'orange' in soda_name:
+       CoinOp_state.orange_inventory += soda_count
+       return ('accept_coins', CoinOp_state) 
+   # malformed input, loop back
+   print("I'm sorry, that did not make sense, please try again")
+   return('restock', CoinOp_state)
 
 def OP_report(CoinOp_state):
-   pass
+   return ('accept_coins', CoinOp_state)
 
 def OP_stop(CoinOp_state):
    print("\nSoda Machine has shutdown: GoodBye!")
-   return (CoinOp__state)
+   return (CoinOp_state)
 
 # Now we build our DGW_CoinOp object from these parts and run it:
 
