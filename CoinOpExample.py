@@ -89,7 +89,7 @@ def OP_start(CoinOp_state):
 def OP_accept_coins(CoinOp_state):
    print("\nWelcome to the pyDGW Soda Machine!")
    print("Sodas are ", CoinOp_state.soda_price, " cents")
-   print("Enter 'nickel' or 'dime' or 'quarter' to pay")
+   print("Enter 'nickel', 'dime', 'quarter' or 'dollar' to pay")
    print("Enter 'refund' to get your coins back")
    print("Enter 'report' to get report on operations")
    commandline = input()
@@ -107,6 +107,12 @@ def OP_accept_coins(CoinOp_state):
          return ('accept_coins', CoinOp_state)
    if 'quarter' in commandline:
       CoinOp_state.tender_total += 25
+      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+         return ('dispense', CoinOp_state)
+      else:
+         return ('accept_coins', CoinOp_state)
+   if 'dollar' in commandline:
+      CoinOp_state.tender_total += 100
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
          return ('dispense', CoinOp_state)
       else:
