@@ -72,10 +72,10 @@ CoinOp_state.soda_price = 65
 CoinOp_state.change_due = 0
 
 # Setup our DGWalker object
-DGW_CoinOp = pyDGW.DGWalker()
-DGW_CoinOp.DEBUG = False      # User debug watches for user code
-DGW_CoinOp.KDEBUG = False     # Kernel debug watches from pyDGW
-DGW_CoinOp.SDEBUG = False     # Verbose operating messages from pyDGW
+CoinOp = pyDGW.DGWalker()
+CoinOp.DEBUG = False      # User debug watches for user code
+CoinOp.KDEBUG = False     # Kernel debug watches from pyDGW
+CoinOp.SDEBUG = False     # Verbose operating messages from pyDGW
 
 def OP_start(CoinOp_state):
    print("\nSoda Machine power is ON, initializing...")
@@ -227,14 +227,17 @@ def OP_stop(CoinOp_state):
 
 # Now we build our DGW_CoinOp object from these parts and run it:
 
-DGW_CoinOp.DEBUG = True
-DGW_CoinOp.addNode("start", OP_start)
-DGW_CoinOp.addNode("accept_coins", OP_accept_coins)
-DGW_CoinOp.addNode("dispense", OP_dispense)
-DGW_CoinOp.addNode("refund", OP_refund)
-DGW_CoinOp.addNode("restock", OP_restock)
-DGW_CoinOp.addNode("report", OP_report)
-DGW_CoinOp.addNode("stop", OP_stop)
-DGW_CoinOp.setStartNode("start")
-DGW_CoinOp.setEndNode("stop")
-DGW_CoinOp.run(CoinOp_state)
+CoinOp.DEBUG = True
+CoinOp.addNode("start", OP_start)
+CoinOp.addNode("accept_coins", OP_accept_coins)
+CoinOp.addNode("dispense", OP_dispense)
+CoinOp.addNode("refund", OP_refund)
+CoinOp.addNode("restock", OP_restock)
+CoinOp.addNode("report", OP_report)
+CoinOp.addNode("stop", OP_stop)
+CoinOp.setStartNode("start")
+CoinOp.setEndNode("stop")
+CoinOp.run(CoinOp_state)
+
+# Run the report state so we have a final report on exit
+OP_report(CoinOp_state)
