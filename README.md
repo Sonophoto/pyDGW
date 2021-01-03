@@ -3,12 +3,16 @@
 # pyDGW
 ***A python3 module that implements a machine for defining and walking Directed State Graphs***
 
-pyDGW implements methods for adding graph nodes, setting graph nodes to be starting
-or ending graph nodes, and then initiating a walk thru the graph nodes which 
-continues by calling the callback function of other nodes beginning with the start
-node and running until it enters an end node. pyDGW also specifies a DGW_data object
-that is passed along from node to node as the current system state changes. This allows
-the user to keep track of the user's application data and generate final output.
+What is a directed Graph? It is a mathematical object: [wikipedia on Directed Graphs](https://en.wikipedia.org/wiki/Directed_graph)
+
+pyDGW implements methods for creating directed graphs. These methods include 
+adding graph nodes, setting graph nodes to be starting or ending graph nodes, 
+and then initiating a walk thru the graph nodes which continues by calling user
+specified callback functions in each nodes beginning with the start node and
+running until it enters an end node. pyDGW also specifies a DGW_data object
+that is passed along from node to node as the current system state changes.
+This allows the user to keep track of the user's application data and generate
+final output.
 
 Directed Graphs can be used to understand and simulate Finite State Machines (FSM).
 
