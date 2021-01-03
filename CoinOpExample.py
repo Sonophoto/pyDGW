@@ -119,6 +119,7 @@ def OP_accept_coins(CoinOp_state):
       else:
          return ('accept_coins', CoinOp_state)
    if 'refund' in commandline:
+       (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
        return ('refund', CoinOp_state)
    if 'restock' in commandline:
        return ('restock', CoinOp_state)
@@ -135,7 +136,8 @@ def OP_dispense(CoinOp_state):
    commandline = input()
    if 'rootbeer' in commandline:
       if CoinOp_state.rootbeer_inventory > 0:
-         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
+            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
          CoinOp_state.soda_sales_total += CoinOp_state.soda_price
          CoinOp_state.rootbeer_sales_total += 1
          CoinOp_state.rootbeer_inventory -= 1
@@ -146,7 +148,8 @@ def OP_dispense(CoinOp_state):
          return ('dispense', CoinOp_state)
    if 'grape' in commandline:
       if CoinOp_state.grape_inventory > 0:
-         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
+            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
          CoinOp_state.soda_sales_total += CoinOp_state.soda_price
          CoinOp_state.grape_sales_total += 1
          CoinOp_state.grape_inventory -= 1
@@ -157,7 +160,8 @@ def OP_dispense(CoinOp_state):
          return ('dispense', CoinOp_state)
    if 'orange' in commandline:
       if CoinOp_state.orange_inventory > 0:
-         CoinOp_state.tender_total -= CoinOp_state.soda_price
+         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
+            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
          CoinOp_state.soda_sales_total += CoinOp_state.soda_price
          CoinOp_state.orange_sales_total += 1
          CoinOp_state.orange_inventory -= 1
@@ -167,26 +171,19 @@ def OP_dispense(CoinOp_state):
          print("\nSorry! orange is out of stock")
          return ('dispense', CoinOp_state)
    if 'refund' in commandline:
+       (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
        return ('refund', CoinOp_state)
    # malformed input, loop back
    return('dispense', CoinOp_state)
 
 def OP_refund(CoinOp_state):
-   """We are using a 'trick' here. We just got the .tender_total value
-      which has been decrimented by the cost of a soda if one was sold,
-      or is the amount the customer has deposited so far: so either way
-      anything remaining is change. Easy eh?
-   """
-   print("\nThank You! Your change is ", CoinOp_state.tender_total, " cents")
-   # In a real machine we would release the coins here
-   # History: In the old days this was a seperate rack of nickels
-   CoinOp_state.tender_total = 0
+   print("\nThank You! Your change is ", CoinOp_state.change_due, " cents")
    return('accept_coins', CoinOp_state)
 
 def OP_restock(CoinOp_state):
    print("\nEnter soda name and count to restock")
    print("eg. rootbeer 6")
-   soda_name, soda_count = "",0    # tuple assignment
+   (soda_name, soda_count) = ("", 0)
    commandline = input() 
    # wrap this in a try/except
    (soda_name, soda_count) = commandline.split()
