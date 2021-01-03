@@ -77,6 +77,8 @@ CoinOp.DEBUG = False      # User debug watches for user code
 CoinOp.KDEBUG = False     # Kernel debug watches from pyDGW
 CoinOp.SDEBUG = False     # Verbose operating messages from pyDGW
 
+# Next we define each of the states in our machine
+
 def OP_start(CoinOp_state):
    print("\nSoda Machine power is ON, initializing...")
    print("Type 'shutdown' when idle to shutdown Soda Machine")
@@ -202,6 +204,17 @@ def OP_restock(CoinOp_state):
    return ('restock', CoinOp_state)
 
 def OP_report(CoinOp_state):
+   _printReport(CoinOp_state)
+   return ('accept_coins', CoinOp_state)
+
+def OP_stop(CoinOp_state):
+   print("\nSoda Machine has shutdown: GoodBye!")
+   # Run the report state so we have a final report
+   OP_report(CoinOp_state)
+   return (CoinOp_state)
+
+# Define our report output as a helper function
+def _printReport(CoinOp_state):
    print("\n===========================================================")
    print("Operations report for", dt.date.today().ctime()) 
    print("\nSales Report:")
@@ -219,14 +232,8 @@ def OP_report(CoinOp_state):
    print("Soda Price:", CoinOp_state.soda_price)
    print("Total Cash in Machine:", CoinOp_state.soda_sales_total/100, "Dollars")
    print("===========================================================")
-   return ('accept_coins', CoinOp_state)
-
-def OP_stop(CoinOp_state):
-   print("\nSoda Machine has shutdown: GoodBye!")
-   return (CoinOp_state)
-
-# Now we build our DGW_CoinOp object from these parts and run it:
-
+ 
+# Now we build our CoinOp object from these parts and run it:
 CoinOp.DEBUG = True
 CoinOp.addNode("start", OP_start)
 CoinOp.addNode("accept_coins", OP_accept_coins)
@@ -239,5 +246,5 @@ CoinOp.setStartNode("start")
 CoinOp.setEndNode("stop")
 CoinOp.run(CoinOp_state)
 
-# Run the report state so we have a final report on exit
-OP_report(CoinOp_state)
+# Generate a final report after the machine has shutdown
+_printReport(CoinOp_state)
