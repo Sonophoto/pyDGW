@@ -1,22 +1,31 @@
 [![Build Status](https://travis-ci.org/Sonophoto/pyDGW.svg?branch=master)](https://travis-ci.org/Sonophoto/pyDGW)
 
 # pyDGW
-***A class that implements a basic state machine for walking Directed State Graphs***
+***A python3 module that implements a machine for defining and walking Directed State Graphs***
 
-Maintains a dict of nodes in a graph with callback functions that define
-the edges and possible transistions from one node to the next. Maintains a
-DGW_data object that is passed from node to node as the current system state.
-pyDGW implements methods for adding nodes, setting nodes to be ending or
-starting nodes, and then walking thru the nodes by calling the callback
-function of each node it enters beginning with the start node until it enters
-an end node.
+pyDGW implements methods for adding graph nodes, setting graph nodes to be starting
+or ending graph nodes, and then initiating a walk thru the graph nodes which 
+continues by calling the callback function of other nodes beginning with the start
+node and running until it enters an end node. pyDGW also specifies a DGW_data object
+that is passed along from node to node as the current system state changes. This allows
+the user to keep track of the user's application data and generate final output.
 
-Programming a state machine is not documented here. You need data that you 
-use to keep track of your state or "status" and data to process; you need a
-function for each node that manipulates that data according to rules you
-define and decides which state to move to next.
+Directed Graphs can be used to understand and simulate Finite State Machines (FSM).
 
-***Usage:***
+Designing and programming a finite state machine is not documented here. You 
+will need data that you use to keep track of your state or "status" and data to
+process; you will need a function for each state/node that manipulates that data
+according to rules you define and decides which state/node to move to next.
+
+Wikipedia has a [basic article on state machines](https://en.wikipedia.org/wiki/Finite-state_machine)
+that is not too technical and includes a turnstyle example.
+
+MIT OpenCourseWare has [a more technical article on state machines](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/unit-1-software-engineering/state-machines/MIT6_01SCS11_chap04.pdf).
+
+Also Note: If you are going to use FSMs you must understand [The Pumping Lemma](https://codeinjection.blogspot.com/2011/02/pumping-lemma-and-why-its-slightly-more.html), Be sure to read the discussion below the article.
+
+
+## Usage:
 
 1. Instantiate a DGW_data object and a DGWalker object.
 
@@ -34,7 +43,7 @@ define and decides which state to move to next.
 
 7. Call .run(DGW_data)
 
-***Tutorials:***
+## Tutorials:
 See [Simple Example](https://github.com/Sonophoto/pyDGW/blob/master/SimpleExample.py)
 for a heavily commented example you can use to start hacking away.
 
@@ -48,7 +57,7 @@ For a more detailed example that takes user input with 5 states and start-up/shu
 See [CoinOp Example](https://github.com/Sonophoto/pyDGW/blob/master/CoinOpExample.py)
 For an even more detailed example with 7 states, closer to a real world machine.
 
-***Troubleshooting:***
+## Troubleshooting:
 
 To help when debugging your code, system messages about what pyDGW is doing can be a big help:
 
@@ -68,4 +77,4 @@ then add message lines like the following as needed in the code in your nodes
 
 [Read the modules code and comments for more details](https://github.com/Sonophoto/pyDGW/blob/master/pyDGW.py)
 
-If you think you have found a bug PLEASE, let me know (File an Issue), I want this project to be perfect. Patches (PRs) are very welcome and will be added to your credit if correct.
+If you think you have found a bug, PLEASE let me know by filing an issue here: [Report Bugs or Request Improvements](https://github.com/Sonophoto/pyDGW/issues)
