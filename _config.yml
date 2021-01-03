@@ -1,0 +1,8 @@
+title: pyDGW
+description: A set of classes that implements a machine for creating and walking Directed Graphs
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-dinky
+
+gems:
+  - jekyll-mentions
