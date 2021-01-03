@@ -57,6 +57,7 @@
 import datetime as dt
 import pyDGW
 
+# Setup our data object
 CoinOp_state = pyDGW.DGW_data()
 CoinOp_state.tender_total = 0
 CoinOp_state.soda_sales_total = 0
@@ -64,17 +65,14 @@ CoinOp_state.rootbeer_sales_total = 0
 CoinOp_state.grape_sales_total = 0
 CoinOp_state.orange_sales_total = 0
 CoinOp_state.cola_sales_total = 0
-#CoinOp_state.nickels_total = 0
-#CoinOp_state.dimes_total = 0
-#CoinOp_state.quarters_total = 0
 CoinOp_state.rootbeer_inventory = 1
 CoinOp_state.grape_inventory = 1
 CoinOp_state.orange_inventory = 1
 CoinOp_state.soda_price = 65 
 CoinOp_state.change_due = 0
 
+# Setup our DGWalker object
 DGW_CoinOp = pyDGW.DGWalker()
-
 DGW_CoinOp.DEBUG = False      # User debug watches for user code
 DGW_CoinOp.KDEBUG = False     # Kernel debug watches from pyDGW
 DGW_CoinOp.SDEBUG = False     # Verbose operating messages from pyDGW
@@ -84,7 +82,7 @@ def OP_start(CoinOp_state):
    print("Type 'shutdown' when idle to shutdown Soda Machine")
    print("Type 'restock' when idle to restock Soda Machine")
    print("Type 'report' when idle to to get sales report")
-   return("accept_coins", CoinOp_state)
+   return ("accept_coins", CoinOp_state)
 
 def OP_accept_coins(CoinOp_state):
    print("\nWelcome to the pyDGW Soda Machine!")
@@ -92,27 +90,28 @@ def OP_accept_coins(CoinOp_state):
    print("Enter 'nickel', 'dime', 'quarter' or 'dollar' to pay")
    print("Enter 'refund' to get your coins back")
    print("Enter 'report' to get report on operations")
+   nickel, dime, quarter, dollar = 5, 10, 25, 100
    commandline = input()
    if 'nickel' in commandline:
-      CoinOp_state.tender_total += 5
+      CoinOp_state.tender_total += nickel
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
          return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'dime' in commandline:
-      CoinOp_state.tender_total += 10
+      CoinOp_state.tender_total += dime
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
          return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'quarter' in commandline:
-      CoinOp_state.tender_total += 25
+      CoinOp_state.tender_total += quarter 
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
          return ('dispense', CoinOp_state)
       else:
          return ('accept_coins', CoinOp_state)
    if 'dollar' in commandline:
-      CoinOp_state.tender_total += 100
+      CoinOp_state.tender_total += dollar 
       if CoinOp_state.tender_total >= CoinOp_state.soda_price:
          return ('dispense', CoinOp_state)
       else:
@@ -161,12 +160,12 @@ def OP_dispense(CoinOp_state):
          CoinOp_state.orange_sales_total += 1
          CoinOp_state.orange_inventory -= 1
          print("\nHere is your cold orange soda. Enjoy!")
-         return('refund', CoinOp_state)
+         return ('refund', CoinOp_state)
       else:
          print("\nSorry! orange is out of stock")
          return ('dispense', CoinOp_state)
    if 'refund' in commandline:
-       return('refund', CoinOp_state)
+       return ('refund', CoinOp_state)
    # malformed input, loop back
    return('dispense', CoinOp_state)
 
@@ -200,7 +199,7 @@ def OP_restock(CoinOp_state):
        return ('accept_coins', CoinOp_state) 
    # malformed input, loop back
    print("I'm sorry, that did not make sense, please try again")
-   return('restock', CoinOp_state)
+   return ('restock', CoinOp_state)
 
 def OP_report(CoinOp_state):
    print("\n===========================================================")
@@ -225,8 +224,6 @@ def OP_report(CoinOp_state):
 def OP_stop(CoinOp_state):
    print("\nSoda Machine has shutdown: GoodBye!")
    return (CoinOp_state)
-
-# Here we have some helper functions to keep our code clean and easy to read
 
 # Now we build our DGW_CoinOp object from these parts and run it:
 
