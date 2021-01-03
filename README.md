@@ -45,8 +45,8 @@ for slightly more involved usages of pyDGW that use data values to control execu
 See [Turnstyle Example](https://github.com/Sonophoto/pyDGW/blob/master/TurnstyleExample.py)
 For a more detailed example that takes user input with 5 states and start-up/shutdown code.
 
-See [CoinOp Example (in progress 21-Dec-2020)](https://github.com/Sonophoto/pyDGW/blob/master/CoinOpExample.py)
-For an even more detailed example with several states, closer to a real world machine.
+See [CoinOp Example](https://github.com/Sonophoto/pyDGW/blob/master/CoinOpExample.py)
+For an even more detailed example with 7 states, closer to a real world machine.
 
 ***Troubleshooting:***
 
