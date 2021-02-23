@@ -8,7 +8,7 @@ What is a directed Graph? It is a mathematical object: [wikipedia on Directed Gr
 pyDGW implements methods for creating directed graphs. These methods include 
 adding graph nodes, setting graph nodes to be starting or ending graph nodes, 
 and then initiating a walk thru the graph nodes which continues by calling user
-specified callback functions in each nodes beginning with the start node and
+specified callback functions in each node beginning with the start node and
 running until it enters an end node. pyDGW also specifies a DGW_data object
 that is passed along from node to node as the current system state changes.
 This allows the user to keep track of the user's application data and generate
