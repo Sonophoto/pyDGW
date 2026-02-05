@@ -11,7 +11,7 @@
    FILENAME:  TurnstyleExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
    PURPOSE:   "Implements a state machine simulating a Turnstyle"
-   COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
+   COPYRIGHT: "Copyright 2016-2026 Brig Young, Sonophotostudios.com"
    LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
 
 *************************************************************************
@@ -39,7 +39,7 @@
    our operator nodes, with each node responsible for:
 
        1. modifying the problem's state variable DGW_state
-       2. choosing the next ooperator
+       2. choosing the next operator
        3. calling that operator and passing along DGW_state
 
    So sketch out the nodes in your machine, write-up logic for each node, 
@@ -94,11 +94,11 @@ def OP_unlock(Turnstyle_state):
    print("please enter 'pass' to go through the turnstyle")
    print("enter 'token' to donate additional tokens")
    commandline = input()
-   if 'token' in commandline:
+   if "token" in commandline:
       print("Thanks for the tip!")
       Turnstyle_state.token_total += 1             # DONATION
       return("unlock", Turnstyle_state)
-   if 'pass' in commandline:
+   if "pass" in commandline:
       print("Have a safe Trip!")
       Turnstyle_state.pass_total += 1              # PAID PASS
       return("accept_token", Turnstyle_state)
@@ -113,12 +113,12 @@ def OP_alarm(Turnstyle_state):
    _soundAlarm()
    commandline = input()
    if "password" in commandline:
-      return('start', Turnstyle_state)
+      return("start", Turnstyle_state)
    if "shutdown" in commandline:
       Turnstyle_state.alarm_status = 0
-      return('stop', Turnstyle_state)
+      return("stop", Turnstyle_state)
    #else bad password: stop!
-   return('stop', Turnstyle_state)
+   return("stop", Turnstyle_state)
 
 def OP_stop(Turnstyle_state):
    if Turnstyle_state.alarm_status:
