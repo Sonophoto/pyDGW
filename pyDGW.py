@@ -124,7 +124,7 @@ class DGWalker:
       # SETUP: make sure we have a .startNode and at least one .endNodes[]
       try:
          operator = self.callbacks[self.startNode]
-      except:
+      except KeyError:
          sys.exit("No starting node has been set, use .setStartNode()")
 
       if not self.endNodes: 
