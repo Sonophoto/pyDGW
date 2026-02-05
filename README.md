@@ -40,8 +40,13 @@ Also Note: If you are going to use FSMs you must understand [The Pumping Lemma](
 2. Define your DGW_data object with state information fields.
 
 3. Write an operator function for each node in your system.
-      it should take a DGW_data object and return a list with next_node and DGW_data
-      [[ prototype: (next_node, DGW_data) operatorFunctionName(DGW_data) ]]
+      it should take a DGW_data object and return a tuple with next_node and DGW_data
+      ```python
+      # Operator function prototype:
+      def operatorFunctionName(DGW_data):
+          # ... modify DGW_data ...
+          return next_node, DGW_data
+      ```
 
 4. Call .addNode(node_name, callback_name) for each node in the system
 
