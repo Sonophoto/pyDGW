@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Sonophoto/pyDGW.svg?branch=master)](https://travis-ci.org/Sonophoto/pyDGW)
+![Tests](https://github.com/Sonophoto/pyDGW/actions/workflows/tests.yml/badge.svg)
 
 # pyDGW
 ***A python3 module that implements a machine for defining and walking Directed State Graphs***
