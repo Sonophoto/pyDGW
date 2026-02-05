@@ -38,7 +38,7 @@ def OP_start(FF_state):
    if DGW_FlipFlop.DEBUG: print("Count is: ", FF_state.counter)
    FF_state.state = 0
    operator = "flip"
-   return(operator, FF_state)
+   return operator, FF_state
 
 def OP_flip(FF_state):
    """We are Flip, if toggled we flop"""
@@ -52,7 +52,7 @@ def OP_flip(FF_state):
          print("Count is: ", FF_state.counter)
    if FF_state.state == 2:
       operator = "stop"
-   return(operator, FF_state)
+   return operator, FF_state
 
 def OP_flop(FF_state):
    """We are Flop, if toggled we flip"""
@@ -66,7 +66,7 @@ def OP_flop(FF_state):
          print("Count is: ", FF_state.counter)
    if FF_state.state == 2:
       operator = "stop"
-   return(operator, FF_state)
+   return operator, FF_state
 
 def OP_stop(FF_state):
    """Exits the state machine, allows us to output data""" 

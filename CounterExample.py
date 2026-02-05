@@ -31,7 +31,7 @@ def OP_start(counter_state):
    """Our start state initializes counter_state.count = 0"""
    counter_state.count = 0
    operator = "counter"
-   return(operator, counter_state)
+   return operator, counter_state
 
 def OP_counter(counter_state):
    """Our counter increments while .count < .limit"""
@@ -41,7 +41,7 @@ def OP_counter(counter_state):
       operator = "counter"
    if counter_state.count == counter_state.limit:
       operator = "stop"
-   return(operator, counter_state)
+   return operator, counter_state
 
 def OP_stop(counter_state):
    """Exits the state machine and prints our count"""

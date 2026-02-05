@@ -69,7 +69,7 @@ def OP_start(Turnstyle_state):
    print("\nTurnstyle power is ON, initializing...")
    print("Type 'shutdown' at any input to shutdown Turnstyle")
    Turnstyle_state.alarm_status = 0 
-   return("accept_token", Turnstyle_state)
+   return "accept_token", Turnstyle_state
 
 def OP_accept_token(Turnstyle_state):
    print("\nWelcome to the pyDGW Turnstyle!")
@@ -79,15 +79,15 @@ def OP_accept_token(Turnstyle_state):
    if "pass" in commandline:
       Turnstyle_state.alarm_status = 1
       Turnstyle_state.pass_total += 1              # UNPAID PASS
-      return("alarm", Turnstyle_state)
+      return "alarm", Turnstyle_state
    if "token" in commandline:
       Turnstyle_state.token_total += 1
-      return("unlock", Turnstyle_state)
+      return "unlock", Turnstyle_state
    if "shutdown" in commandline:
-      return("stop", Turnstyle_state)
+      return "stop", Turnstyle_state
    #else ignore bad input
    print("We are sorry, please try again...")
-   return("accept_token", Turnstyle_state)         
+   return "accept_token", Turnstyle_state         
 
 def OP_unlock(Turnstyle_state):
    print("\nThank You for your business!")
@@ -97,28 +97,28 @@ def OP_unlock(Turnstyle_state):
    if "token" in commandline:
       print("Thanks for the tip!")
       Turnstyle_state.token_total += 1             # DONATION
-      return("unlock", Turnstyle_state)
+      return "unlock", Turnstyle_state
    if "pass" in commandline:
       print("Have a safe Trip!")
       Turnstyle_state.pass_total += 1              # PAID PASS
-      return("accept_token", Turnstyle_state)
+      return "accept_token", Turnstyle_state
    if "shutdown" in commandline:
-      return("stop", Turnstyle_state)
+      return "stop", Turnstyle_state
    #else ignore bad input
    print("We are sorry, please try again...")
-   return("unlock", Turnstyle_state)
+   return "unlock", Turnstyle_state
 
 def OP_alarm(Turnstyle_state):
    Turnstyle_state.alarm_total += 1
    _soundAlarm()
    commandline = input()
    if "password" in commandline:
-      return("start", Turnstyle_state)
+      return "start", Turnstyle_state
    if "shutdown" in commandline:
       Turnstyle_state.alarm_status = 0
-      return("stop", Turnstyle_state)
+      return "stop", Turnstyle_state
    #else bad password: stop!
-   return("stop", Turnstyle_state)
+   return "stop", Turnstyle_state
 
 def OP_stop(Turnstyle_state):
    if Turnstyle_state.alarm_status:
@@ -134,7 +134,7 @@ def OP_stop(Turnstyle_state):
       print(" Tokens/Pass: Not applicable")
    print("-------------------------------------------------")
    print("\nTurnstyle power is OFF, Goodbye\n")
-   return(Turnstyle_state)
+   return Turnstyle_state
 
 # Lets wrap our alarm notifications to unclutter our code:
 
