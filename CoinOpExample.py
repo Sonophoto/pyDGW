@@ -10,7 +10,7 @@
    FILENAME:  CoinOpExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
    PURPOSE:   "Implements a state machine simulating a Vending Machine"
-   COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
+   COPYRIGHT: "Copyright 2016-2026 Brig Young, Sonophotostudios.com"
    LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
 
 *************************************************************************
@@ -35,7 +35,7 @@
    our operator nodes, with each node responsible for:
 
        1. modifying the problem's state variable DGW_state
-       2. choosing the next ooperator
+       2. choosing the next operator
        3. calling that operator and passing along DGW_state
 
    So sketch out the nodes in your machine, write-up logic for each node, 
@@ -137,7 +137,7 @@ def OP_start(CoinOp_state):
    print("Type 'shutdown' when idle to shutdown Soda Machine")
    print("Type 'restock' when idle to restock Soda Machine")
    print("Type 'report' when idle to to get sales report")
-   return ("accept_coins", CoinOp_state)
+   return "accept_coins", CoinOp_state
 
 def OP_accept_coins(CoinOp_state):
    print("\nWelcome to the pyDGW Soda Machine!")
@@ -156,14 +156,14 @@ def OP_accept_coins(CoinOp_state):
    if 'refund' in commandline:
        (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
        return ('refund', CoinOp_state)
-   if 'restock' in commandline:
-       return ('restock', CoinOp_state)
-   if 'report' in commandline:
-       return ('report', CoinOp_state)
-   if 'shutdown' in commandline:
-       return ('stop', CoinOp_state)
+   if "restock" in commandline:
+       return "restock", CoinOp_state
+   if "report" in commandline:
+       return "report", CoinOp_state
+   if "shutdown" in commandline:
+       return "stop", CoinOp_state
    # malformed input, loop back
-   return('accept_coins', CoinOp_state)
+   return "accept_coins", CoinOp_state
 
 def OP_dispense(CoinOp_state):
    print("\nThank You for your business!")
@@ -176,15 +176,15 @@ def OP_dispense(CoinOp_state):
            return dispense_soda(flavor, CoinOp_state)
    
    # Handle refund
-   if 'refund' in commandline:
+   if "refund" in commandline:
        (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
-       return ('refund', CoinOp_state)
+       return "refund", CoinOp_state
    # malformed input, loop back
-   return('dispense', CoinOp_state)
+   return "dispense", CoinOp_state
 
 def OP_refund(CoinOp_state):
    print("\nThank You! Your change is ", CoinOp_state.change_due, " cents")
-   return('accept_coins', CoinOp_state)
+   return "accept_coins", CoinOp_state
 
 def OP_restock(CoinOp_state):
    print("\nEnter soda name and count to restock")
@@ -197,21 +197,21 @@ def OP_restock(CoinOp_state):
    if soda_name and soda_count is not None:
        if soda_name in CoinOp_state.inventory:
            CoinOp_state.inventory[soda_name] += soda_count
-           return ('accept_coins', CoinOp_state)
+           return "accept_coins", CoinOp_state
    
    # malformed input, loop back
    print("I'm sorry, that did not make sense, please try again")
-   return ('restock', CoinOp_state)
+   return "restock", CoinOp_state
 
 def OP_report(CoinOp_state):
    _printReport(CoinOp_state)
-   return ('accept_coins', CoinOp_state)
+   return "accept_coins", CoinOp_state
 
 def OP_stop(CoinOp_state):
    print("\nSoda Machine has shutdown: GoodBye!")
    # Run the report state so we have a final report
    OP_report(CoinOp_state)
-   return (CoinOp_state)
+   return CoinOp_state
 
 # Define our report output as a helper function
 def _printReport(CoinOp_state):

@@ -8,7 +8,7 @@
    FILENAME:  CounterExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
    PURPOSE:   "Implements a dead simple 3 state FSM"
-   COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
+   COPYRIGHT: "Copyright 2016-2026 Brig Young, Sonophotostudios.com"
    LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
 
 *************************************************************************   
@@ -31,7 +31,7 @@ def OP_start(counter_state):
    """Our start state initializes counter_state.count = 0"""
    counter_state.count = 0
    operator = "counter"
-   return(operator, counter_state)
+   return operator, counter_state
 
 def OP_counter(counter_state):
    """Our counter increments while .count < .limit"""
@@ -41,7 +41,7 @@ def OP_counter(counter_state):
       operator = "counter"
    if counter_state.count == counter_state.limit:
       operator = "stop"
-   return(operator, counter_state)
+   return operator, counter_state
 
 def OP_stop(counter_state):
    """Exits the state machine and prints our count"""
