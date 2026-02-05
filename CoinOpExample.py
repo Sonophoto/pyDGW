@@ -57,18 +57,32 @@
 import datetime as dt
 import pyDGW
 
-# Setup our data object
+# Constants
+COIN_VALUES = {
+    'nickel': 5,
+    'dime': 10,
+    'quarter': 25,
+    'dollar': 100
+}
+
+SODA_FLAVORS = ['rootbeer', 'grape', 'orange']
+SODA_PRICE = 65
+
+# Setup our data object with organized state
 CoinOp_state = pyDGW.DGW_data()
 CoinOp_state.tender_total = 0
 CoinOp_state.soda_sales_total = 0
-CoinOp_state.rootbeer_sales_total = 0
-CoinOp_state.grape_sales_total = 0
-CoinOp_state.orange_sales_total = 0
-CoinOp_state.cola_sales_total = 0
-CoinOp_state.rootbeer_inventory = 1
-CoinOp_state.grape_inventory = 1
-CoinOp_state.orange_inventory = 1
-CoinOp_state.soda_price = 65 
+CoinOp_state.inventory = {
+    'rootbeer': 1,
+    'grape': 1,
+    'orange': 1
+}
+CoinOp_state.sales = {
+    'rootbeer': 0,
+    'grape': 0,
+    'orange': 0
+}
+CoinOp_state.soda_price = SODA_PRICE
 CoinOp_state.change_due = 0
 
 # Setup our DGWalker object
@@ -76,6 +90,45 @@ CoinOp = pyDGW.DGWalker()
 CoinOp.DEBUG = False      # User debug watches for user code
 CoinOp.KDEBUG = False     # Kernel debug watches from pyDGW
 CoinOp.SDEBUG = False     # Verbose operating messages from pyDGW
+
+# Helper functions for DRY principle
+
+def handle_coin_input(coin_name, CoinOp_state):
+    """Handle coin input and determine next state"""
+    if coin_name in COIN_VALUES:
+        CoinOp_state.tender_total += COIN_VALUES[coin_name]
+        if CoinOp_state.tender_total >= CoinOp_state.soda_price:
+            return ('dispense', CoinOp_state)
+        else:
+            return ('accept_coins', CoinOp_state)
+    return None
+
+def dispense_soda(flavor, CoinOp_state):
+    """Dispense a soda if in stock, return appropriate state transition"""
+    if flavor in CoinOp_state.inventory:
+        if CoinOp_state.inventory[flavor] > 0:
+            CoinOp_state.change_due = CoinOp_state.tender_total - CoinOp_state.soda_price
+            CoinOp_state.tender_total = 0
+            CoinOp_state.soda_sales_total += CoinOp_state.soda_price
+            CoinOp_state.sales[flavor] += 1
+            CoinOp_state.inventory[flavor] -= 1
+            print(f"\nHere is your cold {flavor} soda. Enjoy!")
+            return ('refund', CoinOp_state)
+        else:
+            print(f"\nSorry! {flavor} is out of stock")
+            return ('dispense', CoinOp_state)
+    return None
+
+def parse_restock_command(commandline):
+    """Parse restock command with error handling"""
+    try:
+        parts = commandline.split()
+        if len(parts) == 2:
+            soda_name, soda_count = parts
+            return (soda_name, int(soda_count))
+    except (ValueError, IndexError):
+        pass
+    return (None, None)
 
 # Next we define each of the states in our machine
 
@@ -92,32 +145,14 @@ def OP_accept_coins(CoinOp_state):
    print("Enter 'nickel', 'dime', 'quarter' or 'dollar' to pay")
    print("Enter 'refund' to get your coins back")
    print("Enter 'report' to get report on operations")
-   nickel, dime, quarter, dollar = 5, 10, 25, 100
    commandline = input()
-   if 'nickel' in commandline:
-      CoinOp_state.tender_total += nickel
-      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return ('dispense', CoinOp_state)
-      else:
-         return ('accept_coins', CoinOp_state)
-   if 'dime' in commandline:
-      CoinOp_state.tender_total += dime
-      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return ('dispense', CoinOp_state)
-      else:
-         return ('accept_coins', CoinOp_state)
-   if 'quarter' in commandline:
-      CoinOp_state.tender_total += quarter 
-      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return ('dispense', CoinOp_state)
-      else:
-         return ('accept_coins', CoinOp_state)
-   if 'dollar' in commandline:
-      CoinOp_state.tender_total += dollar 
-      if CoinOp_state.tender_total >= CoinOp_state.soda_price:
-         return ('dispense', CoinOp_state)
-      else:
-         return ('accept_coins', CoinOp_state)
+   
+   # Try coin input first
+   for coin_name in COIN_VALUES.keys():
+       if coin_name in commandline:
+           return handle_coin_input(coin_name, CoinOp_state)
+   
+   # Handle other commands
    if 'refund' in commandline:
        (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
        return ('refund', CoinOp_state)
@@ -134,42 +169,13 @@ def OP_dispense(CoinOp_state):
    print("\nThank You for your business!")
    print("Enter 'rootbeer' or 'grape' or 'orange' to vend")
    commandline = input()
-   if 'rootbeer' in commandline:
-      if CoinOp_state.rootbeer_inventory > 0:
-         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
-            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
-         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
-         CoinOp_state.rootbeer_sales_total += 1
-         CoinOp_state.rootbeer_inventory -= 1
-         print("\nHere is your cold rootbeer. Enjoy!")
-         return ('refund', CoinOp_state)
-      else:
-         print("\nSorry! rootbeer is out of stock")
-         return ('dispense', CoinOp_state)
-   if 'grape' in commandline:
-      if CoinOp_state.grape_inventory > 0:
-         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
-            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
-         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
-         CoinOp_state.grape_sales_total += 1
-         CoinOp_state.grape_inventory -= 1
-         print("\nHere is your cold grape soda. Enjoy!")
-         return ('refund', CoinOp_state)
-      else:
-         print("\nSorry! grape is out of stock")
-         return ('dispense', CoinOp_state)
-   if 'orange' in commandline:
-      if CoinOp_state.orange_inventory > 0:
-         (CoinOp_state.change_due, CoinOp_state.tender_total) =\
-            (CoinOp_state.tender_total - CoinOp_state.soda_price, 0)
-         CoinOp_state.soda_sales_total += CoinOp_state.soda_price
-         CoinOp_state.orange_sales_total += 1
-         CoinOp_state.orange_inventory -= 1
-         print("\nHere is your cold orange soda. Enjoy!")
-         return ('refund', CoinOp_state)
-      else:
-         print("\nSorry! orange is out of stock")
-         return ('dispense', CoinOp_state)
+   
+   # Try each soda flavor
+   for flavor in SODA_FLAVORS:
+       if flavor in commandline:
+           return dispense_soda(flavor, CoinOp_state)
+   
+   # Handle refund
    if 'refund' in commandline:
        (CoinOp_state.change_due, CoinOp_state.tender_total) = (CoinOp_state.tender_total, 0)
        return ('refund', CoinOp_state)
@@ -183,19 +189,16 @@ def OP_refund(CoinOp_state):
 def OP_restock(CoinOp_state):
    print("\nEnter soda name and count to restock")
    print("eg. rootbeer 6")
-   (soda_name, soda_count) = ("", 0)
-   commandline = input() 
-   # wrap this in a try/except
-   (soda_name, soda_count) = commandline.split()
-   if 'rootbeer' in soda_name:
-       CoinOp_state.rootbeer_inventory += int(soda_count)
-       return ('accept_coins', CoinOp_state) 
-   if 'grape' in soda_name:
-       CoinOp_state.grape_inventory += int(soda_count)
-       return ('accept_coins', CoinOp_state) 
-   if 'orange' in soda_name:
-       CoinOp_state.orange_inventory += int(soda_count)
-       return ('accept_coins', CoinOp_state) 
+   commandline = input()
+   
+   # Use helper function with try/except for safe parsing
+   (soda_name, soda_count) = parse_restock_command(commandline)
+   
+   if soda_name and soda_count is not None:
+       if soda_name in CoinOp_state.inventory:
+           CoinOp_state.inventory[soda_name] += soda_count
+           return ('accept_coins', CoinOp_state)
+   
    # malformed input, loop back
    print("I'm sorry, that did not make sense, please try again")
    return ('restock', CoinOp_state)
@@ -215,16 +218,13 @@ def _printReport(CoinOp_state):
    print("\n===========================================================")
    print("Operations report for", dt.date.today().ctime()) 
    print("\nSales Report:")
-   print("Total Sodas Sold:", CoinOp_state.rootbeer_sales_total+\
-                              CoinOp_state.grape_sales_total+\
-                              CoinOp_state.orange_sales_total)
-   print("Rootbeer Sales:", CoinOp_state.rootbeer_sales_total)
-   print("Grape Soda Sales:", CoinOp_state.grape_sales_total)
-   print("Orange Soda Sales:", CoinOp_state.orange_sales_total)
+   total_sodas = sum(CoinOp_state.sales.values())
+   print("Total Sodas Sold:", total_sodas)
+   for flavor in SODA_FLAVORS:
+       print(f"{flavor.capitalize()} Sales:", CoinOp_state.sales[flavor])
    print("\nSoda Inventory:")
-   print("Rootbeer Inventory:", CoinOp_state.rootbeer_inventory)
-   print("Grape Soda Inventory:", CoinOp_state.grape_inventory)
-   print("Orange Soda Inventory:", CoinOp_state.orange_inventory)
+   for flavor in SODA_FLAVORS:
+       print(f"{flavor.capitalize()} Inventory:", CoinOp_state.inventory[flavor])
    print("\nFinancial Report:")
    print("Soda Price:", CoinOp_state.soda_price)
    print("Total Cash in Machine:", CoinOp_state.soda_sales_total/100, "Dollars")
