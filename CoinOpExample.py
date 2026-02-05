@@ -43,15 +43,6 @@
 
    I hope this code encourages you to play with and learn more about 
    Finite State Machines AKA Directed Graph Walkers.
-
-   NOTE: For more advanced programmers this is a first level abstraction
-         and for working code would need a refactor. I know this ;-) This
-         is a teaching example so it is written this way so as not to 
-         confuse less advanced students. Once they understand this we can 
-         move on to passing around references more aggresively with an 
-         aggresive refactoring pass. If it is not here when you read this:
-
-                    Feel Free to PR and get credit <wink>
 """
 
 import datetime as dt
