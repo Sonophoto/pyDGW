@@ -3,6 +3,10 @@
 # pyDGW
 ***A python3 module that implements a machine for defining and walking Directed State Graphs***
 
+Updated February 2026 with assistance from Claude Haiku 4.5. The awesome thing
+about this is that I got to use a tool I used to help people learn state
+machines to learn how to us AI as a pair programmer!
+
 What is a directed Graph? It is a mathematical object: [wikipedia on Directed Graphs](https://en.wikipedia.org/wiki/Directed_graph)
 
 pyDGW implements methods for creating directed graphs. These methods include 
@@ -24,7 +28,7 @@ according to rules you define and decides which state/node to move to next.
 Wikipedia has a [basic article on state machines](https://en.wikipedia.org/wiki/Finite-state_machine)
 that is not too technical and includes a turnstyle example.
 
-MIT OpenCourseWare has [a more technical article on state machines](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/unit-1-software-engineering/state-machines/MIT6_01SCS11_chap04.pdf).
+MIT OpenCourseWare has [a university level page on state machines](https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/pages/unit-1-software-engineering/state-machines/).
 
 Also Note: If you are going to use FSMs you must understand [The Pumping Lemma](https://codeinjection.blogspot.com/2011/02/pumping-lemma-and-why-its-slightly-more.html), Be sure to read the discussion below the article.
 
