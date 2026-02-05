@@ -8,7 +8,7 @@
    FILENAME:  CounterExample.py
    AUTHOR:    "Brig Young, https://github.com/Sonophoto/"
    PURPOSE:   "Implements a dead simple 3 state FSM"
-   COPYRIGHT: "Copyright 2016-2020 Brig Young, Sonophotostudios.com"
+   COPYRIGHT: "Copyright 2016-2026 Brig Young, Sonophotostudios.com"
    LICENSE:   " BSD 2-Clause, (Citation Required) See LICENSE file"
 
 *************************************************************************   
