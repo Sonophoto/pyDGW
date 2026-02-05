@@ -1,2 +1,4 @@
-# pyDGW
+# pyDGW - Requirements for testing and development
+# This file is kept minimal as the project has no external dependencies.
+# It exists for future extensibility when dependencies may be added.
 
