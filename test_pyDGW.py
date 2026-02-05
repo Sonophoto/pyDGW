@@ -257,6 +257,7 @@ class TestDGWalkerExecution(unittest.TestCase):
         
         self.assertEqual(state.count, state.limit)
         self.assertGreater(state.count, initial_count)
+        # Operator counter: 1 (start->work) + 10000 (work->work loops) + 1 (work->stop) = 10002
         self.assertEqual(self.walker.operator_counter, 10002)
 
     def test_state_mutation_across_transitions(self):
